@@ -45,9 +45,9 @@ function islandora_altmetrics_block_view($delta) {
     case 'islandora_altmetrics_altmetrics':
       $object = menu_get_object('islandora_object', 2);
       // Limit to citations with MODS DS.
-      if (!in_array('ir:citationCModel', $object->models) || !isset($object['MODS'])) {
-        return;
-      }
+      // if (!in_array('ir:citationCModel', $object->models) || !isset($object['MODS'])) {
+        // return;
+      // }
       // Get DOI.
       $doc = new DOMDocument();
       $doc->loadXML($object['MODS']->content);
@@ -56,23 +56,23 @@ function islandora_altmetrics_block_view($delta) {
       $xpath_results = $xpath->query(
         variable_get('islandora_altmetrics_doi_xpath', '/mods:mods/mods:identifier[@type="doi"]')
       );
+      if ($xpath_results->length == 0) {
+        return;
+      }
       $doi = $xpath_results->item(0)->nodeValue;
       if (!$doi) {
         return;
       }
 
       // Embed Altmetrics.
-      $to_render['content']['altmetrics'] = array(
-        '#type' => 'container',
-        '#attributes' => array(
-          'class' => array('altmetric-embed'),
-          'data-badge-type' => variable_get('islandora_altmetrics_badge', 'Default'),
-          'data-doi' => $doi,
-          'data-badge-popover' => variable_get('islandora_altmetrics_popover', 'right'),
-          'data-hide-no-mentions' => 'true',
-        ),
-      );
-      drupal_add_js('https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js', 'external');
+      // $to_render['content']['altmetrics'] = array(
+      // Assemble the Scopus API request URL
+      $api_key = variable_get('islandora_altmetrics_scopu_api_key', 'b3a71de2bde04544495881ed9d2f9c5b');
+      $scopus_url = "http://api.elsevier.com:80/content/abstract/citation-count?doi=" .
+        urlencode($doi) . "&apiKey=" . $api_key . "&httpAccept=text%2Fhtml";
+      // Hit the API.
+      $response = drupal_http_request($scopus_url);
+      $to_render['content'] = $response->data;
       break;
   }
   return $to_render;
