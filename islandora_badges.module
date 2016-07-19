@@ -46,7 +46,7 @@ function islandora_badges_block_info() {
  */
  
  //Altmetrics block
- 
+/* 
 function islandora_badges_altmetrics_block_view($delta) {
   $to_render = array();
 
@@ -86,7 +86,7 @@ function islandora_badges_altmetrics_block_view($delta) {
   }
   return $to_render;
 }
-
+*/
 // Scopus block
 
 function islandora_badges_scopus_block_view($delta) {
