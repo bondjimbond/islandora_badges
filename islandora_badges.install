@@ -1,0 +1,17 @@
+<?php
+/**
+ * @file
+ * Installation hooks for Islandora Badges.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function islandora_badges_uninstall() {
+  $vars = array(
+    'islandora_badges_altmetrics_badge',
+    'islandora_badges_altmetrics_popover',
+    'islandora_badges_xpath',
+  );
+  array_walk($vars, 'variable_del');
+}
