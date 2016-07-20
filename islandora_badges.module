@@ -45,18 +45,16 @@ function islandora_badges_block_info() {
  * Implements hook_block_view().
  */
  
- //Altmetrics block
- 
 function islandora_badges_block_view($delta) {
   $to_render = array();
-
   switch ($delta) {
+   // Load the Altmetrics block
     case 'islandora_badges_altmetrics':
       $object = menu_get_object('islandora_object', 2);
-      // Limit to citations with MODS DS.
-      if (!in_array('ir:citationCModel', $object->models) || !isset($object['MODS'])) {
-        return;
-      }
+      // Limit to citations with MODS DS. -- Commented out, because why should we limit this?
+      // if (!in_array('ir:citationCModel', $object->models) || !isset($object['MODS'])) {
+      //  return;
+      // }
       // Get DOI.
       $doc = new DOMDocument();
       $doc->loadXML($object['MODS']->content);
@@ -83,9 +81,11 @@ function islandora_badges_block_view($delta) {
       );
       drupal_add_js('https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js', 'external');
       break;
-    case 'islandora_badges_scopus':
+ 
+  // Load the Scopus block
+   case 'islandora_badges_scopus':
       $object = menu_get_object('islandora_object', 2);
-      // Limit to citations with MODS DS.
+      // Limit to citations with MODS DS -- cut out as above.
       // if (!in_array('ir:citationCModel', $object->models) || !isset($object['MODS'])) {
         // return;
       // }
@@ -106,7 +106,6 @@ function islandora_badges_block_view($delta) {
       }
 
       // Embed Scopus.
-      // $to_render['content']['altmetrics'] = array(
       // Assemble the Scopus API request URL
       $api_key = variable_get('islandora_badges_scopus_api_key', 'b3a71de2bde04544495881ed9d2f9c5b');
       $scopus_url = "http://api.elsevier.com:80/content/abstract/citation-count?doi=" .
@@ -115,8 +114,30 @@ function islandora_badges_block_view($delta) {
       $response = drupal_http_request($scopus_url);
       $to_render['content'] = $response->data;
       break;
-      
-      
+
+/** Template for future blocks 
+*   case 'islandora_badges_BADGETYPE':
+*      $object = menu_get_object('islandora_object', 2);
+*      // Get DOI.
+*      $doc = new DOMDocument();
+*      $doc->loadXML($object['MODS']->content);
+*      $xpath = new DOMXPath($doc);
+*      $xpath->registerNamespace('mods', 'http://www.loc.gov/mods/v3');
+*      $xpath_results = $xpath->query(
+*        variable_get('islandora_badges_doi_xpath', '/mods:mods/mods:identifier[@type="doi"]')
+*      );
+*      if ($xpath_results->length == 0) {
+*        return;
+*      }
+*      $doi = $xpath_results->item(0)->nodeValue;
+*      if (!$doi) {
+*        return;
+*      }
+* 
+* // Add embed code here
+*     break;  
+*/
+
   }
   return $to_render;
 }
