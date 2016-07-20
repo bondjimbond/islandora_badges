@@ -47,7 +47,7 @@ function islandora_badges_block_info() {
  
  //Altmetrics block
  
-function islandora_badges_altmetrics_block_view($delta) {
+function islandora_badges_block_view($delta) {
   $to_render = array();
 
   switch ($delta) {
@@ -83,16 +83,6 @@ function islandora_badges_altmetrics_block_view($delta) {
       );
       drupal_add_js('https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js', 'external');
       break;
-  }
-  return $to_render;
-}
-
-// Scopus block
-
-function islandora_badges_scopus_block_view($delta) {
-  $to_render = array();
-
-  switch ($delta) {
     case 'islandora_badges_scopus':
       $object = menu_get_object('islandora_object', 2);
       // Limit to citations with MODS DS.
@@ -125,6 +115,8 @@ function islandora_badges_scopus_block_view($delta) {
       $response = drupal_http_request($scopus_url);
       $to_render['content'] = $response->data;
       break;
+      
+      
   }
   return $to_render;
 }
