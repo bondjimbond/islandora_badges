@@ -2,11 +2,11 @@
 
 ## Introduction
 
-Islandora Badges displays Altmetrics and Scopus Citation Count badges on objects. This is based on the Islandora Altmetrics module, expanded to include Scopus (and hopefully other types of badge in the future).
+Islandora Badges displays Altmetrics and Scopus Citation Count badges on objects. This is mostly based on the [Islandora Altmetrics module](https://github.com/Islandora/islandora_altmetrics), expanded to include Scopus (and hopefully other types of badges in the future).
 
-The Altmetrics piece uses the [Altmetrics API](http://api.altmetric.com/). Before using this module one should familiarize oneself with the licensing.
+The Altmetrics piece uses the [Altmetrics API](http://api.altmetric.com/). Before using this module one should familiarize oneself with the licensing. (Future development: allow administrators to use their own API keys rather than a hard-coded default.)
 
-The Scopus piece uses the [Scopus Abstract Citation Count API](https://api.elsevier.com/documentation/AbstractCitationCountAPI.wadl). A default API key is included, but is very limited. You should get your own free API key from Scopus.
+The Scopus piece uses the [Scopus Abstract Citation Count API](https://api.elsevier.com/documentation/AbstractCitationCountAPI.wadl). A default API key is included, but this is intended for demo purposes only and is very limited. You should get your own free API key from Scopus.
 
 ## Requirements
 
@@ -21,7 +21,7 @@ Install as usual, see [this](https://drupal.org/documentation/install/modules-th
 
 ## Configuration
 
-Configuration path is admin/islandora/tools/badges (Administration > Islandora > Islander Utility Modules > Islandora badges Configuration).
+Configuration path is admin/islandora/tools/badges (Administration > Islandora > Islander Utility Modules > Islandora Badges Configuration).
 
 There are four administration options:
 
@@ -30,7 +30,7 @@ There are four administration options:
 * Altmetrics Popover
      * defines the location where the [popover displays](http://api.altmetric.com/embeds.html#popovers). Current options are left, right, top or bottom.
 * Scopus API Key
-     * required to acquire citation counts.  
+     * required to acquire citation counts. Do not use the included default in production - it's for demo purposes only. 
 * DOI XPath
      * the XPath to the DOI element e.g. /mods:mods/mods:identifier[@type="doi"] 
 
@@ -45,6 +45,7 @@ Once enabled the badge is displayed on pages that have a DOI as configured and s
 Future development:
 * Remove Citation CModel requirement
 * Allow other kinds of identifiers (besides DOI) to be used
+* Add more badges
 
 ## Documentation
 
@@ -69,7 +70,7 @@ If you would like to contribute to this module, please check out [CONTRIBUTING.m
 
 ## Notes
 
-Built by [Mark Jordan](https://github.com/mjordan) and tested by [Brandon Weigel](https://github.com/bondjimbond) for the second iCampBC in July 2016.
+Built by [Mark Jordan](https://github.com/mjordan) and [Brandon Weigel](https://github.com/bondjimbond) for the second iCampBC in July 2016.
 
 ## License
 
