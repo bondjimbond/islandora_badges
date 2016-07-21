@@ -4,7 +4,7 @@
 
 Islandora Badges displays Altmetrics and Scopus Citation Count badges on objects. This is mostly based on the [Islandora Altmetrics module](https://github.com/Islandora/islandora_altmetrics), expanded to include Scopus (and hopefully other types of badges in the future).
 
-The Altmetrics piece uses the [Altmetrics API](http://api.altmetric.com/). Before using this module one should familiarize oneself with the licensing. (Future development: allow administrators to use their own API keys rather than a hard-coded default.)
+The Altmetrics piece uses the [Altmetrics API](http://api.altmetric.com/). Before using this module one should familiarize oneself with the licensing.
 
 The Scopus piece uses the [Scopus Abstract Citation Count API](https://api.elsevier.com/documentation/AbstractCitationCountAPI.wadl). A default API key is included, but this is intended for demo purposes only and is very limited. You should get your own free API key from Scopus.
 
@@ -44,6 +44,7 @@ Once enabled the badge is displayed on pages that have a DOI as configured and s
 
 Future development:
 * Remove Citation CModel requirement
+* Make the Altmetric API Key a configurable variable 
 * Allow other kinds of identifiers (besides DOI) to be used
 * Add more badges
 
