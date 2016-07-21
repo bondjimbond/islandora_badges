@@ -26,9 +26,10 @@ Configuration path is admin/islandora/tools/badges (Administration > Islandora >
 There are four administration options:
 
 * Altmetric Badge
-     * provide one of the [badge types](http://api.altmetric.com/embeds.html#badge-types) defined by Altmetrics. Default is the small rectangular badges. Other options include 
+     * provide one of the [badge types](http://api.altmetric.com/embeds.html#badge-types) defined by Altmetrics. Default is the small rectangular badge. Other options include various doughnut shapes and differently styled rectangles.
+     * Case sensitive.
 * Altmetrics Popover
-     * defines the location where the [popover displays](http://api.altmetric.com/embeds.html#popovers). Current options are left, right, top or bottom.
+     * defines the location where the [popover displays](http://api.altmetric.com/embeds.html#popovers). Current options are left, right, top or bottom. Case sensitive.
 * Scopus API Key
      * required to acquire citation counts. Do not use the included default in production - it's for demo purposes only. 
 * DOI XPath
