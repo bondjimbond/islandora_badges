@@ -70,7 +70,7 @@ If you would like to contribute to this module, please check out [CONTRIBUTING.m
 
 ## Notes
 
-Built by [Mark Jordan](https://github.com/mjordan) and [Brandon Weigel](https://github.com/bondjimbond) for the second iCampBC in July 2016.
+Built by [Mark Jordan](https://github.com/mjordan) and [Brandon Weigel](https://github.com/bondjimbond) for the second iCampBC in July 2016. Makes heavy use of the [Islandora Altmetrics](https://github.com/Islandora/islandora_altmetrics) code written by [William Panting](https://github.com/willtp87).
 
 ## License
 
