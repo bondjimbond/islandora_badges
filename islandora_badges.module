@@ -51,10 +51,10 @@ function islandora_badges_block_view($delta) {
    // Load the Altmetrics block
     case 'islandora_badges_altmetrics':
       $object = menu_get_object('islandora_object', 2);
-      // Limit to citations with MODS DS. -- Commented out, because why should we limit this?
-      // if (!in_array('ir:citationCModel', $object->models) || !isset($object['MODS'])) {
-      //  return;
-      // }
+      // Limit to citations with MODS DS. -- Eventually this should be removed, but without it you get warnings about getting properties of non-objects.
+      if (!in_array('ir:citationCModel', $object->models) || !isset($object['MODS'])) {
+        return;
+      }
       // Get DOI.
       $doc = new DOMDocument();
       $doc->loadXML($object['MODS']->content);
@@ -85,10 +85,10 @@ function islandora_badges_block_view($delta) {
   // Load the Scopus block
    case 'islandora_badges_scopus':
       $object = menu_get_object('islandora_object', 2);
-      // Limit to citations with MODS DS -- cut out as above.
-      // if (!in_array('ir:citationCModel', $object->models) || !isset($object['MODS'])) {
-        // return;
-      // }
+      // Limit to citations with MODS DS -- see above.
+      if (!in_array('ir:citationCModel', $object->models) || !isset($object['MODS'])) {
+        return;
+       }
       // Get DOI.
       $doc = new DOMDocument();
       $doc->loadXML($object['MODS']->content);
