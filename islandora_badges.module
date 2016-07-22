@@ -142,10 +142,10 @@ function islandora_badges_block_view($delta) {
  
       // Embed Web of Science.
       // Assemble the Web of Science Article Match Retrieval API request URL
-      $api_key = variable_get('islandora_badges_wos_api_key', 'ASD7GRswkggAUrmuIVn9MGwmGYEYtG6C');
+      $wos_api_key = variable_get('islandora_badges_wos_api_key', 'ASD7GRswkggAUrmuIVn9MGwmGYEYtG6C');
       // Still trying to find the documentation on assembling the ARM request
       //$wos_amr_url = "http://URLGOESHERE" .
-      //  urlencode($doi) . "&apiKey=" . $api_key . "&httpAccept=text%2Fhtml";
+      //  urlencode($doi) . "&apiKey=" . $wos_api_key . "&httpAccept=text%2Fhtml";
       // Hit the API.
       //$response = drupal_http_request($wos_amr_url);
       //$to_render['content'] = $response->data;
@@ -154,7 +154,7 @@ function islandora_badges_block_view($delta) {
       // Need a script to extract the UT, put it into a variable, and then pass the variable into the next query
 
       // Assemble the Web of Science InCites request URL
-      $wos_incites_url = "https://api.thomsonreuters.com/incites_ps/v1/DocumentLevelMetricsByUT/xml?X-TR-API-APP-ID=" . $api-key. "&UT=000346342200004";
+      $wos_incites_url = "https://api.thomsonreuters.com/incites_ps/v1/DocumentLevelMetricsByUT/xml?X-TR-API-APP-ID=" . $wos_api_key. "&UT=000346342200004";
       // Hit the API
       $response = drupal_http_request($wos_incites_url);
       $to_render['content'] = $response->data;
