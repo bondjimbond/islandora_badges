@@ -38,7 +38,7 @@ function islandora_badges_block_info() {
       'cache' => DRUPAL_NO_CACHE,
       'info' => t('Islandora Scopus'),  
     ),
-    'islandora_badges_wos' => array_
+    'islandora_badges_wos' => array(
       'visibility' => BLOCK_VISIBILITY_LISTED,
       'pages' => 'islandora/object/*',
       'cache' => DRUPAL_NO_CACHE,
