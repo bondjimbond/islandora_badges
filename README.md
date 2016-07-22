@@ -44,7 +44,6 @@ The blocks come with some default configurations.
 Once enabled the badge is displayed on pages that have a DOI as configured and some metrics.  If it has a DOI, but doesn't display, then the article doesn't currently have any metrics.
 
 Future development:
-* Remove Citation CModel requirement
 * Make the Altmetric API Key a configurable variable 
 * Allow other kinds of identifiers (besides DOI) to be used
 * Add more badges
