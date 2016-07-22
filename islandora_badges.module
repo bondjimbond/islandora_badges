@@ -38,6 +38,12 @@ function islandora_badges_block_info() {
       'cache' => DRUPAL_NO_CACHE,
       'info' => t('Islandora Scopus'),  
     ),
+    'islandora_badges_wos' => array_
+      'visibility' => BLOCK_VISIBILITY_LISTED,
+      'pages' => 'islandora/object/*',
+      'cache' => DRUPAL_NO_CACHE,
+      'info' => t('Islandora Web of Science'),  
+    ),    
   );
 }
 
@@ -115,29 +121,44 @@ function islandora_badges_block_view($delta) {
       $to_render['content'] = $response->data;
       break;
 
-/** Template for future blocks 
-*   case 'islandora_badges_BADGETYPE':
-*      $object = menu_get_object('islandora_object', 2);
-*      // Get DOI.
-*      $doc = new DOMDocument();
-*      $doc->loadXML($object['MODS']->content);
-*      $xpath = new DOMXPath($doc);
-*      $xpath->registerNamespace('mods', 'http://www.loc.gov/mods/v3');
-*      $xpath_results = $xpath->query(
-*        variable_get('islandora_badges_doi_xpath', '/mods:mods/mods:identifier[@type="doi"]')
-*      );
-*      if ($xpath_results->length == 0) {
-*        return;
-*      }
-*      $doi = $xpath_results->item(0)->nodeValue;
-*      if (!$doi) {
-*        return;
-*      }
-* 
-* // Add embed code here
-*     break;  
-*/
+/** Template for future blocks */
+   case 'islandora_badges_wos':
+      $object = menu_get_object('islandora_object', 2);
+      // Get DOI.
+      $doc = new DOMDocument();
+      $doc->loadXML($object['MODS']->content);
+      $xpath = new DOMXPath($doc);
+      $xpath->registerNamespace('mods', 'http://www.loc.gov/mods/v3');
+      $xpath_results = $xpath->query(
+        variable_get('islandora_badges_doi_xpath', '/mods:mods/mods:identifier[@type="doi"]')
+      );
+      if ($xpath_results->length == 0) {
+        return;
+      }
+      $doi = $xpath_results->item(0)->nodeValue;
+      if (!$doi) {
+        return;
+      }
+ 
+      // Embed Web of Science.
+      // Assemble the Web of Science Article Match Retrieval API request URL
+      $api_key = variable_get('islandora_badges_wos_api_key', 'ASD7GRswkggAUrmuIVn9MGwmGYEYtG6C');
+      // Still trying to find the documentation on assembling the ARM request
+      //$wos_amr_url = "http://URLGOESHERE" .
+      //  urlencode($doi) . "&apiKey=" . $api_key . "&httpAccept=text%2Fhtml";
+      // Hit the API.
+      //$response = drupal_http_request($wos_amr_url);
+      //$to_render['content'] = $response->data;
+      //break; 
 
+      // Need a script to extract the UT, put it into a variable, and then pass the variable into the next query
+
+      // Assemble the Web of Science InCites request URL
+      $wos_incites_url = "https://api.thomsonreuters.com/incites_ps/v1/DocumentLevelMetricsByUT/xml?X-TR-API-APP-ID=" . $api-key. "&UT=000346342200004";
+      // Hit the API
+      response = drupal_http_request($wos_incites_url);
+      $to_render['content'] = $response->data;
+      break;
   }
   return $to_render;
 }
