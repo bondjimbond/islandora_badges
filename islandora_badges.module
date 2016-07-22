@@ -156,7 +156,7 @@ function islandora_badges_block_view($delta) {
       // Assemble the Web of Science InCites request URL
       $wos_incites_url = "https://api.thomsonreuters.com/incites_ps/v1/DocumentLevelMetricsByUT/xml?X-TR-API-APP-ID=" . $api-key. "&UT=000346342200004";
       // Hit the API
-      response = drupal_http_request($wos_incites_url);
+      $response = drupal_http_request($wos_incites_url);
       $to_render['content'] = $response->data;
       break;
   }
