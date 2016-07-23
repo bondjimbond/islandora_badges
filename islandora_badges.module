@@ -48,10 +48,13 @@ function islandora_badges_block_info() {
 function islandora_badges_block_view($delta) {
   $to_render = array();
   switch ($delta) {
-   // Load the Altmetrics block
+    // Load the Altmetrics block
     case 'islandora_badges_altmetrics':
       $object = menu_get_object('islandora_object', 2);
       // Get DOI.
+      if (!isset($object['MODS'])) {
+        return;
+      }
       $doc = new DOMDocument();
       $doc->loadXML($object['MODS']->content);
       $xpath = new DOMXPath($doc);
@@ -85,6 +88,9 @@ function islandora_badges_block_view($delta) {
    case 'islandora_badges_scopus':
       $object = menu_get_object('islandora_object', 2);
       // Get DOI.
+      if (!isset($object['MODS'])) {
+        return;
+      }
       $doc = new DOMDocument();
       $doc->loadXML($object['MODS']->content);
       $xpath = new DOMXPath($doc);
