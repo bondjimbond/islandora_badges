@@ -121,7 +121,7 @@ function islandora_badges_block_view($delta) {
       $to_render['content'] = $response->data;
       break;
 
-/** Template for future blocks */
+/** Web of Science block */
    case 'islandora_badges_wos':
       $object = menu_get_object('islandora_object', 2);
       // Get DOI.
@@ -143,7 +143,73 @@ function islandora_badges_block_view($delta) {
       // Embed Web of Science.
       // Assemble the Web of Science Article Match Retrieval API request URL
       $wos_api_key = variable_get('islandora_badges_wos_api_key', 'ASD7GRswkggAUrmuIVn9MGwmGYEYtG6C');
-      // Still trying to find the documentation on assembling the ARM request
+    
+      // Apparently the AMR API request is an XML request - have to figure out how this works. And we can't use InCites.
+      // Suggestion is to use CURL to make this work... but how?
+/* Somehow use the following to generate the request 
+<?xml version="1.0" encoding="UTF-8" ?>
+<request xmlns="http://www.isinet.com/xrpc42" src="app.id=API Demo">
+  <fn name="LinksAMR.retrieve">
+    <list>
+      <!-- WHO'S REQUESTING -->
+      <map>   
+        <val name="username">your username</val>       
+        <val name="password">your password</val>            
+      </map>
+      <!-- WHAT'S REQUESTED -->
+      <map>
+        <list name="WOS">
+          <val>timesCited</val>
+          <val>ut</val>
+          <val>doi</val>
+          <val>pmid</val>
+          <val>sourceURL</val>
+          <val>citingArticlesURL</val>
+          <val>relatedRecordsURL</val>
+        </list>
+      </map>
+<!-- LOOKUP DATA -->
+      <map>
+<!-- QUERY "cite_1" -->
+        <map name="cite_1">
+          <val name="doi">DOI</val>
+        </map> <!-- end of cite_1-->      
+<!-- QUERY "cite_2" -->      
+        <map name="cite_2">
+          <val name="ut">UT value</val>
+        </map> <!-- end of cite_2-->      
+<!-- QUERY "cite_3" -->    
+        <map name="cite_3">
+          <val name="atitle">article title string</val>         
+          <val name="stitle">full journal title</val>
+          <val name="issn">ISSN</val>
+          <val name="vol">volume number</val>
+          <val name="issue">issue number</val>
+          <val name="year">publication year</val>         
+          <val name="spage">starting page number</val>
+<!-- authors list can be used to specify multiple authors -->
+          <list name="authors">
+            <val>First, AU</val>
+            <val>Second, AU</val>
+            <val>Third, AU</val>
+          </list>
+        </map> <!-- end of cite_3-->
+<!-- QUERY "cite_4" -->
+        <map name="cite_4">
+          <val name="an">article number</val>
+          <val name="stitle">full journal title</val>
+          <val name="year">publication year</val>
+        </map>  <!-- end of cite_4-->  
+<!-- QUERY "cite_5" -->
+        <map name="cite_5">
+          ...
+        </map> <!-- end of cite_5-->
+      </map> <!-- end of citations -->
+    </list>
+  </fn>
+</request>
+    */
+      // Still trying to find the documentation on assembling the AMR request
       //$wos_amr_url = "http://URLGOESHERE" .
       //  urlencode($doi) . "&apiKey=" . $wos_api_key . "&httpAccept=text%2Fhtml";
       // Hit the API.
@@ -154,12 +220,12 @@ function islandora_badges_block_view($delta) {
       // Need a script to extract the UT, put it into a variable, and then pass the variable into the next query
       // This looks promising: http://hublog.hubmed.org/archives/001855.html
 
-      // Assemble the Web of Science InCites request URL
-      $wos_incites_url = "https://api.thomsonreuters.com/incites_ps/v1/DocumentLevelMetricsByUT/xml?X-TR-API-APP-ID=" . $wos_api_key. "&UT=000346342200004";
+      // Assemble the Web of Science InCites request URL - this is no longer a thing, as we can't get an InCites API key.
+     // $wos_incites_url = "https://api.thomsonreuters.com/incites_ps/v1/DocumentLevelMetricsByUT/xml?X-TR-API-APP-ID=" . $wos_api_key. "&UT=000346342200004";
       // Hit the API
-      $response = drupal_http_request($wos_incites_url);
-      $to_render['content'] = $response->data;
-      break;
+    //  $response = drupal_http_request($wos_incites_url);
+  //    $to_render['content'] = $response->data;
+  //    break;
   }
   return $to_render;
 }
