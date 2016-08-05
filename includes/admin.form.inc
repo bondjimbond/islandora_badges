@@ -29,8 +29,24 @@ function islandora_badges_admin_form($form, $form_settings) {
     $form['islandora_badges_wos_api_key'] = array(
     '#type' => 'textfield',
     '#title' => t('Web of Science Developer Key'),
-    '#description' => t('The default key here is for demonstartion purposes only; you need to get your own key.'),
+    '#description' => t('This is for the InCites service, which we do not actually have. The default key here is for demonstartion purposes only; you need to get your own key.'),
     '#default_value' => variable_get('islandora_badges_wos_api_key', 'ASD7GRswkggAUrmuIVn9MGwmGYEYtG6C'),
+  );  
+    
+  $form['islandora_badges_wos_username'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Web of Science username'),
+    '#description' => t('Your username for the Article Match Retrieval service.')
+    '#default_value' => variable_get('islandora_badges_wos_username', 'none'),
+  );
+  
+  $form['islandora_badges_wos_password'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Web of Science password'),
+    '#description' => t('Your password for the Article Match Retrieval service.')
+    '#default_value' => variable_get('islandora_badges_wos_password', 'none'),
+  );
+    
   $form['islandora_badges_doi_xpath'] = array(
     '#type' => 'textfield',
     '#title' => t('DOI XPath'),
