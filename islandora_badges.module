@@ -151,6 +151,8 @@ function islandora_badges_block_view($delta) {
       // Apparently the AMR API request is an XML request - have to figure out how this works. And we can't use InCites.
       // Suggestion is to use CURL to make this work... but how?
       
+      // Looks like a Hong Kong IR has managed it very differently: http://repository.ust.hk/ir/themes/hkust/js/hkust_wos_api.js
+      
     // Can I do something with this? https://stackoverflow.com/questions/7120586/soap-request-in-php-with-curl
     // Or this? https://stackoverflow.com/questions/18697422/send-xml-data-to-webservice-using-php-curl
     
