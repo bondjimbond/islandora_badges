@@ -143,6 +143,10 @@ function islandora_badges_block_view($delta) {
       // Embed Web of Science.
       // Assemble the Web of Science Article Match Retrieval API request URL
       $wos_api_key = variable_get('islandora_badges_wos_api_key', 'ASD7GRswkggAUrmuIVn9MGwmGYEYtG6C');
+      
+      // Get the WoS AMR username and password from the admin config.
+      $wos_username = variable_get('islandora_badges_wos_username');
+      $wos_password = variable_get('islandora_badges_wos_password');
     
       // Apparently the AMR API request is an XML request - have to figure out how this works. And we can't use InCites.
       // Suggestion is to use CURL to make this work... but how?
