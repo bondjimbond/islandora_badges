@@ -155,6 +155,7 @@ function islandora_badges_block_view($delta) {
       
     // Can I do something with this? https://stackoverflow.com/questions/7120586/soap-request-in-php-with-curl
     // Or this? https://stackoverflow.com/questions/18697422/send-xml-data-to-webservice-using-php-curl
+    // This looks promising! But it's in Ruby. http://umlaut.rubyforge.org/svn/trunk/lib/service_adaptors/isi.rb
     
 //Store your XML Request in a variable
       $input_xml = '<request xmlns="http://www.isinet.com/xrpc42" src="app.id=API Demo">
