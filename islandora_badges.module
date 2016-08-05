@@ -158,12 +158,12 @@ function islandora_badges_block_view($delta) {
       $input_xml = '<request xmlns="http://www.isinet.com/xrpc42" src="app.id=API Demo">
   <fn name="LinksAMR.retrieve">
     <list>
-      <!-- WHO'S REQUESTING -->
+      <!-- WHO IS REQUESTING -->
       <map>   
         <val name="username">' . $wos_username . '</val>       
         <val name="password">' . $wos_password . '</val>            
       </map>
-      <!-- WHAT'S REQUESTED -->
+      <!-- WHAT IS REQUESTED -->
       <map>
         <list name="WOS">
           <val>timesCited</val>
