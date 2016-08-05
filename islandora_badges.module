@@ -146,7 +146,65 @@ function islandora_badges_block_view($delta) {
     
       // Apparently the AMR API request is an XML request - have to figure out how this works. And we can't use InCites.
       // Suggestion is to use CURL to make this work... but how?
-/* Somehow use the following to generate the request 
+      
+    // Can I do something with this? https://stackoverflow.com/questions/7120586/soap-request-in-php-with-curl
+    // Or this? https://stackoverflow.com/questions/18697422/send-xml-data-to-webservice-using-php-curl
+    
+//Store your XML Request in a variable
+      $input_xml = '<request xmlns="http://www.isinet.com/xrpc42" src="app.id=API Demo">
+  <fn name="LinksAMR.retrieve">
+    <list>
+      <!-- WHO'S REQUESTING -->
+      <map>   
+        <val name="username">' . $wos_username . '</val>       
+        <val name="password">' . $wos_password . '</val>            
+      </map>
+      <!-- WHAT'S REQUESTED -->
+      <map>
+        <list name="WOS">
+          <val>timesCited</val>
+          <val>ut</val>
+          <val>doi</val>
+          <val>pmid</val>
+          <val>sourceURL</val>
+          <val>citingArticlesURL</val>
+          <val>relatedRecordsURL</val>
+        </list>
+      </map>
+<!-- LOOKUP DATA -->
+      <map>
+<!-- QUERY "cite_1" -->
+        <map name="cite_1">
+          <val name="doi">' . $doi . '</val>
+        </map> <!-- end of cite_1-->      
+      </map> <!-- end of citations -->
+    </list>
+  </fn>
+</request>';
+      
+          $url = "http://www.isinet.com/xrpc42";
+
+        //setting the curl parameters.
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+// Following line is compulsary to add as it is:
+        curl_setopt($ch, CURLOPT_POSTFIELDS,
+                    "xmlRequest=" . $input_xml);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 300);
+        $data = curl_exec($ch);
+        curl_close($ch);
+
+        //convert the XML result into array
+        $array_data = json_decode(json_encode(simplexml_load_string($data)), true);
+$to_render = $array_data;
+        print_r('<pre>');
+        print_r($array_data);
+        print_r('</pre>');
+      
+      
+      
+/* Here's the full XML request form template offered by WOS 
 <?xml version="1.0" encoding="UTF-8" ?>
 <request xmlns="http://www.isinet.com/xrpc42" src="app.id=API Demo">
   <fn name="LinksAMR.retrieve">
