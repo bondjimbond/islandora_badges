@@ -113,7 +113,12 @@ function islandora_badges_block_view($delta) {
         urlencode($doi) . "&apiKey=" . $api_key . "&httpAccept=text%2Fhtml";
       // Hit the API.
       $response = drupal_http_request($scopus_url);
-      $to_render['content'] = $response->data;
+      if (preg_match('/alt=\"unavailable\"/', $response->data)) {
+        return;
+      }
+      else {
+        $to_render['content'] = $response->data;
+      }
       break;
 
 /** Template for future blocks 
