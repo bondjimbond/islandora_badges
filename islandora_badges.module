@@ -140,68 +140,49 @@ function islandora_badges_block_view($delta) {
         return;
       }
  
-      // Embed Web of Science.
+    // Embed Web of Science.
 
-      // Get the WoS AMR username and password from the admin config.
+    // Get the WoS AMR username and password from the admin config.
       $wos_username = variable_get('islandora_badges_wos_username');
       $wos_password = variable_get('islandora_badges_wos_password');
     
-      // Apparently the AMR API request is an XML request - have to figure out how this works. And we can't use InCites.
-      // Suggestion is to use CURL to make this work... but how?
-      
-      // Looks like a Hong Kong IR has managed it very differently: http://repository.ust.hk/ir/themes/hkust/js/hkust_wos_api.js
-      
-    // Can I do something with this? https://stackoverflow.com/questions/7120586/soap-request-in-php-with-curl
-    // Or this? https://stackoverflow.com/questions/18697422/send-xml-data-to-webservice-using-php-curl
-    // This looks promising! But it's in Ruby. http://umlaut.rubyforge.org/svn/trunk/lib/service_adaptors/isi.rb
+    // Looks like a Hong Kong IR uses JS to generate results in an image: http://repository.ust.hk/ir/themes/hkust/js/hkust_wos_api.js
     
-    // Trying the function from the Drupal API
-    
+    // Set API endpoint URL
     $url = "https://ws.isiknowledge.com/cps/xrpc";
 
-// The following stolen from a comment on the Drupal API page https://api.drupal.org/api/drupal/includes!common.inc/function/drupal_http_request/7.x
-// Should $data use http_build_query??
-  // $data = 'name=value&name1=value1';
-/* $options = array(
-                'method' => 'POST',
-                'data' => $data,
-                'timeout' => 15,
-                'headers' => array('Content-Type' => 'application/x-www-form-urlencoded'),
-        );
-$result = drupal_http_request($url, $options);  */
-    
-    
-//Store your XML Request in a variable
+
+//Store your XML Request in a variable - not ideal but I don't know how to send an XML file by POST (ha ha)
       $input_xml = '<?xml version="1.0" encoding="UTF-8" ?>
-<request xmlns="http://www.isinet.com/xrpc42" src="app.id=API Demo">
-  <fn name="LinksAMR.retrieve">
-    <list>
+      <request xmlns="http://www.isinet.com/xrpc42" src="app.id=API Demo">
+      <fn name="LinksAMR.retrieve">
+      <list>
       <!-- WHO IS REQUESTING -->
       <map>   
-        <val name="username">' . $wos_username . '</val>       
-        <val name="password">' . $wos_password . '</val>            
-      </map>
-      <!-- WHAT IS REQUESTED -->
-      <map>
-        <list name="WOS">
-          <val>timesCited</val>
-          <val>ut</val>
-          <val>doi</val>
-          <val>pmid</val>
-          <val>sourceURL</val>
-          <val>citingArticlesURL</val>
-          <val>relatedRecordsURL</val>
-        </list>
-      </map>
-      <!-- LOOKUP DATA -->
-      <map>  
-        <map name="cite_1">
-          <val name="doi">' . $doi . '</val>
+          <val name="username">' . $wos_username . '</val>       
+          <val name="password">' . $wos_password . '</val>            
         </map>
-      </map>
-    </list>
-  </fn>
-</request>';
+        <!-- WHAT IS REQUESTED -->
+        <map>
+          <list name="WOS">
+            <val>timesCited</val>
+//            <val>ut</val>
+//            <val>doi</val>
+//            <val>pmid</val>
+//            <val>sourceURL</val>
+//            <val>citingArticlesURL</val>
+//            <val>relatedRecordsURL</val>
+          </list>
+        </map>
+        <!-- LOOKUP DATA -->
+        <map>  
+          <map name="cite_1">
+            <val name="doi">' . $doi . '</val>
+          </map>
+        </map>
+      </list>
+    </fn>
+  </request>';
       
 $result = drupal_http_request($url, array(
   'headers' => array('Content-Type' => 'text/xml'),
@@ -209,29 +190,12 @@ $result = drupal_http_request($url, array(
   'method' => 'POST',
   'timeout' => 10
 ));
+
 // If there is no error return data
 if (empty($result ->error)) {
     $to_render['content'] = $result ->data;
 }
       
-      
-      // Still trying to find the documentation on assembling the AMR request
-      //$wos_amr_url = "http://URLGOESHERE" .
-      //  urlencode($doi) . "&apiKey=" . $wos_api_key . "&httpAccept=text%2Fhtml";
-      // Hit the API.
-      //$response = drupal_http_request($wos_amr_url);
-      //$to_render['content'] = $response->data;
-      //break; 
-
-      // Need a script to extract the UT, put it into a variable, and then pass the variable into the next query
-      // This looks promising: http://hublog.hubmed.org/archives/001855.html
-
-      // Assemble the Web of Science InCites request URL - this is no longer a thing, as we can't get an InCites API key.
-     // $wos_incites_url = "https://api.thomsonreuters.com/incites_ps/v1/DocumentLevelMetricsByUT/xml?X-TR-API-APP-ID=" . $wos_api_key. "&UT=000346342200004";
-      // Hit the API
-    //  $response = drupal_http_request($wos_incites_url);
-  //    $to_render['content'] = $response->data;
-  //    break;
   }
   return $to_render;
 }
