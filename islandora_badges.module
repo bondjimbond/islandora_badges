@@ -210,8 +210,8 @@ $result = drupal_http_request($url, array(
   'timeout' => 10
 ));
 // If there is no error return data
-if (empty($response->error)) {
-    $to_render['content'] = $response->data;
+if (empty($result ->error)) {
+    $to_render['content'] = $result ->data;
 }
       
       
