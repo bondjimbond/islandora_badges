@@ -36,14 +36,14 @@ function islandora_badges_admin_form($form, $form_settings) {
   $form['islandora_badges_wos_username'] = array(
     '#type' => 'textfield',
     '#title' => t('Web of Science username'),
-    '#description' => t('Your username for the Article Match Retrieval service.')
+    '#description' => t('Your username for the Article Match Retrieval service.'),
     '#default_value' => variable_get('islandora_badges_wos_username', 'none'),
   );
   
   $form['islandora_badges_wos_password'] = array(
     '#type' => 'textfield',
     '#title' => t('Web of Science password'),
-    '#description' => t('Your password for the Article Match Retrieval service.')
+    '#description' => t('Your password for the Article Match Retrieval service.'),
     '#default_value' => variable_get('islandora_badges_wos_password', 'none'),
   );
     
