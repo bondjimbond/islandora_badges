@@ -211,7 +211,7 @@ $result = drupal_http_request($url, array(
 ));
 // If there is no error return data
 if (empty($response->error)) {
-  $result['xml'] = $response->data;
+    $to_render['content'] = $response->data;
 }
       
       
