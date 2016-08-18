@@ -166,6 +166,12 @@ function islandora_badges_block_view($delta) {
         <map>
           <list name="WOS">
             <val>timesCited</val>
+            <val>ut</val>
+            <val>doi</val>
+            <val>pmid</val>
+            <val>sourceURL</val>
+            <val>citingArticlesURL</val>
+            <val>relatedRecordsURL</val>
           </list>
         </map>
         <!-- LOOKUP DATA -->
@@ -177,15 +183,6 @@ function islandora_badges_block_view($delta) {
       </list>
     </fn>
   </request>';
-      
-/* The following was cut from the <list> tag above for testing only:
-            <val>ut</val>
-            <val>doi</val>
-            <val>pmid</val>
-            <val>sourceURL</val>
-            <val>citingArticlesURL</val>
-            <val>relatedRecordsURL</val>
-*/      
       
 $result = drupal_http_request($url, array(
   'headers' => array('Content-Type' => 'text/xml'),
