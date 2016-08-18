@@ -141,9 +141,7 @@ function islandora_badges_block_view($delta) {
       }
  
       // Embed Web of Science.
-      // Assemble the Web of Science Article Match Retrieval API request URL
-      $wos_api_key = variable_get('islandora_badges_wos_api_key', 'ASD7GRswkggAUrmuIVn9MGwmGYEYtG6C');
-      
+
       // Get the WoS AMR username and password from the admin config.
       $wos_username = variable_get('islandora_badges_wos_username');
       $wos_password = variable_get('islandora_badges_wos_password');
@@ -158,83 +156,30 @@ function islandora_badges_block_view($delta) {
     // This looks promising! But it's in Ruby. http://umlaut.rubyforge.org/svn/trunk/lib/service_adaptors/isi.rb
     
     // Trying the function from the Drupal API
-  //  $url = [whatever the URL endpoint is]
+    
+    $url = "https://ws.isiknowledge.com/cps/xrpc";
 
 // The following stolen from a comment on the Drupal API page https://api.drupal.org/api/drupal/includes!common.inc/function/drupal_http_request/7.x
 // Should $data use http_build_query??
   // $data = 'name=value&name1=value1';
-$options = array(
+/* $options = array(
                 'method' => 'POST',
                 'data' => $data,
                 'timeout' => 15,
                 'headers' => array('Content-Type' => 'application/x-www-form-urlencoded'),
         );
-$result = drupal_http_request($url, $options);
+$result = drupal_http_request($url, $options);  */
     
     
 //Store your XML Request in a variable
-      $input_xml = '<request xmlns="http://www.isinet.com/xrpc42" src="app.id=API Demo">
-  <fn name="LinksAMR.retrieve">
-    <list>
-      <!-- WHO IS REQUESTING -->
-      <map>   
-        <val name="username">' . $wos_username . '</val>       
-        <val name="password">' . $wos_password . '</val>            
-      </map>
-      <!-- WHAT IS REQUESTED -->
-      <map>
-        <list name="WOS">
-          <val>timesCited</val>
-          <val>ut</val>
-          <val>doi</val>
-          <val>pmid</val>
-          <val>sourceURL</val>
-          <val>citingArticlesURL</val>
-          <val>relatedRecordsURL</val>
-        </list>
-      </map>
-<!-- LOOKUP DATA -->
-      <map>
-<!-- QUERY "cite_1" -->
-        <map name="cite_1">
-          <val name="doi">' . $doi . '</val>
-        </map> <!-- end of cite_1-->      
-      </map> <!-- end of citations -->
-    </list>
-  </fn>
-</request>';
-      
-          $url = "http://www.isinet.com/xrpc42";
-
-        //setting the curl parameters.
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-// Following line is compulsary to add as it is:
-        curl_setopt($ch, CURLOPT_POSTFIELDS,
-                    "xmlRequest=" . $input_xml);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 300);
-        $data = curl_exec($ch);
-        curl_close($ch);
-
-        //convert the XML result into array
-        $array_data = json_decode(json_encode(simplexml_load_string($data)), true);
-$to_render = $array_data;
-        print_r('<pre>');
-        print_r($array_data);
-        print_r('</pre>');
-      
-      
-      
-/* Here's the full XML request form template offered by WOS 
-<?xml version="1.0" encoding="UTF-8" ?>
+      $input_xml = '<?xml version="1.0" encoding="UTF-8" ?>
 <request xmlns="http://www.isinet.com/xrpc42" src="app.id=API Demo">
   <fn name="LinksAMR.retrieve">
     <list>
       <!-- WHO'S REQUESTING -->
       <map>   
-        <val name="username">your username</val>       
-        <val name="password">your password</val>            
+        <val name="username">' . $wos_username . '</val>       
+        <val name="password">' . $wos_password . '</val>            
       </map>
       <!-- WHAT'S REQUESTED -->
       <map>
@@ -248,47 +193,28 @@ $to_render = $array_data;
           <val>relatedRecordsURL</val>
         </list>
       </map>
-<!-- LOOKUP DATA -->
-      <map>
-<!-- QUERY "cite_1" -->
+      <!-- LOOKUP DATA -->
+      <map>  
         <map name="cite_1">
-          <val name="doi">DOI</val>
-        </map> <!-- end of cite_1-->      
-<!-- QUERY "cite_2" -->      
-        <map name="cite_2">
-          <val name="ut">UT value</val>
-        </map> <!-- end of cite_2-->      
-<!-- QUERY "cite_3" -->    
-        <map name="cite_3">
-          <val name="atitle">article title string</val>         
-          <val name="stitle">full journal title</val>
-          <val name="issn">ISSN</val>
-          <val name="vol">volume number</val>
-          <val name="issue">issue number</val>
-          <val name="year">publication year</val>         
-          <val name="spage">starting page number</val>
-<!-- authors list can be used to specify multiple authors -->
-          <list name="authors">
-            <val>First, AU</val>
-            <val>Second, AU</val>
-            <val>Third, AU</val>
-          </list>
-        </map> <!-- end of cite_3-->
-<!-- QUERY "cite_4" -->
-        <map name="cite_4">
-          <val name="an">article number</val>
-          <val name="stitle">full journal title</val>
-          <val name="year">publication year</val>
-        </map>  <!-- end of cite_4-->  
-<!-- QUERY "cite_5" -->
-        <map name="cite_5">
-          ...
-        </map> <!-- end of cite_5-->
-      </map> <!-- end of citations -->
+          <val name="doi">' . $doi . '</val>
+        </map>
+      </map>
     </list>
   </fn>
-</request>
-    */
+</request>';
+      
+$result = drupal_http_request($url, array(
+  'headers' => array('Content-Type' => 'text/xml'),
+  'data' => $input_xml,
+  'method' => 'POST',
+  'timeout' => 10
+));
+// If there is no error return data
+if (empty($response->error)) {
+  $result['xml'] = $response->data;
+}
+      
+      
       // Still trying to find the documentation on assembling the AMR request
       //$wos_amr_url = "http://URLGOESHERE" .
       //  urlencode($doi) . "&apiKey=" . $wos_api_key . "&httpAccept=text%2Fhtml";
