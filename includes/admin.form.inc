@@ -14,25 +14,21 @@ function islandora_badges_admin_form($form, $form_settings) {
     '#description' => t('Name of the badge style to use when displaying the Altmetrics information.'),
     '#default_value' => variable_get('islandora_badges_altmetrics_badge', 'Default'),
   );
+  
   $form['islandora_badges_altmetrics_popover'] = array(
     '#type' => 'textfield',
     '#title' => t('Altmetrics Popover'),
     '#description' => t('Popover direction for extra information.'),
     '#default_value' => variable_get('islandora_badges_altmetrics_popover', 'right'),
   );
+  
   $form['islandora_badges_scopus_api_key'] = array(
     '#type' => 'textfield',
     '#title' => t('Scopus API Key'),
     '#description' => t('The default key here is for demonstartion purposes only; you need to get your own key.'),
     '#default_value' => variable_get('islandora_badges_scopus_api_key', 'b3a71de2bde04544495881ed9d2f9c5b'),
   );
-    $form['islandora_badges_wos_api_key'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Web of Science Developer Key'),
-    '#description' => t('This is for the InCites service, which we do not actually have. The default key here is for demonstartion purposes only; you need to get your own key.'),
-    '#default_value' => variable_get('islandora_badges_wos_api_key', 'ASD7GRswkggAUrmuIVn9MGwmGYEYtG6C'),
-  );  
-    
+  
   $form['islandora_badges_wos_username'] = array(
     '#type' => 'textfield',
     '#title' => t('Web of Science username'),
