@@ -38,6 +38,12 @@ function islandora_badges_block_info() {
       'cache' => DRUPAL_NO_CACHE,
       'info' => t('Islandora Scopus'),  
     ),
+    'islandora_badges_wos' => array(
+      'visibility' => BLOCK_VISIBILITY_LISTED,
+      'pages' => 'islandora/object/*',
+      'cache' => DRUPAL_NO_CACHE,
+      'info' => t('Islandora Web of Science'),  
+    ),    
   );
 }
 
@@ -121,29 +127,111 @@ function islandora_badges_block_view($delta) {
       }
       break;
 
-/** Template for future blocks 
-*   case 'islandora_badges_BADGETYPE':
-*      $object = menu_get_object('islandora_object', 2);
-*      // Get DOI.
-*      $doc = new DOMDocument();
-*      $doc->loadXML($object['MODS']->content);
-*      $xpath = new DOMXPath($doc);
-*      $xpath->registerNamespace('mods', 'http://www.loc.gov/mods/v3');
-*      $xpath_results = $xpath->query(
-*        variable_get('islandora_badges_doi_xpath', '/mods:mods/mods:identifier[@type="doi"]')
-*      );
-*      if ($xpath_results->length == 0) {
-*        return;
-*      }
-*      $doi = $xpath_results->item(0)->nodeValue;
-*      if (!$doi) {
-*        return;
-*      }
-* 
-* // Add embed code here
-*     break;  
-*/
+/** Web of Science block */
+   case 'islandora_badges_wos':
+      $object = menu_get_object('islandora_object', 2);
+      // Limit to citations with MODS DS -- see above.
+      if (!in_array('ir:citationCModel', $object->models) || !isset($object['MODS'])) {
+        return;
+       }
+      // Get DOI.
+      $doc = new DOMDocument();
+      $doc->loadXML($object['MODS']->content);
+      $xpath = new DOMXPath($doc);
+      $xpath->registerNamespace('mods', 'http://www.loc.gov/mods/v3');
+      $xpath_results = $xpath->query(
+        variable_get('islandora_badges_doi_xpath', '/mods:mods/mods:identifier[@type="doi"]')
+      );
+      if ($xpath_results->length == 0) {
+        return;
+      }
+      $doi = $xpath_results->item(0)->nodeValue;
+      if (!$doi) {
+        return;
+      }
+ 
+    // Embed Web of Science.
 
+    // Get the WoS AMR username and password from the admin config.
+      $wos_username = variable_get('islandora_badges_wos_username');
+      $wos_password = variable_get('islandora_badges_wos_password');
+    
+    // Looks like a Hong Kong IR uses JS to generate results in an image: http://repository.ust.hk/ir/themes/hkust/js/hkust_wos_api.js
+    
+    // Set API endpoint URL
+    $url = "https://ws.isiknowledge.com/cps/xrpc";
+
+
+//Store your XML Request in a string - not ideal but I don't know how to send an XML file by POST (ha ha)
+      $input_xml = '<?xml version="1.0" encoding="UTF-8" ?>
+      <request xmlns="http://www.isinet.com/xrpc42" src="app.id=API Demo">
+      <fn name="LinksAMR.retrieve">
+      <list>
+      <!-- WHO IS REQUESTING -->
+      <map>   
+          <val name="username">' . $wos_username . '</val>       
+          <val name="password">' . $wos_password . '</val>            
+        </map>
+        <!-- WHAT IS REQUESTED -->
+        <map>
+          <list name="WOS">
+            <val>timesCited</val>
+            <val>citingArticlesURL</val>
+          </list>
+        </map>
+        <!-- LOOKUP DATA -->
+        <map>  
+          <map name="cite_1">
+            <val name="doi">' . $doi . '</val>
+          </map>
+        </map>
+      </list>
+    </fn>
+  </request>';
+
+// Post the request and get results!
+      
+$result = drupal_http_request($url, array(
+  'headers' => array('Content-Type' => 'text/xml'),
+  'data' => $input_xml,
+  'method' => 'POST',
+  'timeout' => 10
+));
+
+// Convert the response to an array and remove the CDATA tags
+
+$wos_result = simplexml_load_string($result->data, 'SimpleXMLElement', LIBXML_NOCDATA);
+
+
+// Default - zero citations -- should this really be present?
+$timesCited = 0;
+
+// Default - citingArticlesURL - no citing articles = empty array
+$citingArticlesURL = array();
+
+// Get the values into the variables
+
+foreach ($wos_result->fn->map->map->map->val as $val) {
+	switch((string) $val['name']) { // Get attributes as element indices
+		case 'timesCited':
+			$timesCited = $val[0];
+			break;
+		case 'citingArticlesURL':
+			// URL is child node of <val name="citingArticlesURL"> in CDATA section.
+			// We need to pull this out.
+			// Possible that there could be multiple citingArticlesURL values and thus needs an array... Is this true?
+
+			$citingArticlesURL = $val[0];
+
+			break;
+		}
+	}
+
+// If there is no error return data
+  if (empty($result ->error)) {
+      $to_render['content'] = '<a href="' . $citingArticlesURL . '" target="_blank">Web of Science citations: ' . $timesCited . '</a>';
   }
+      
+}
   return $to_render;
 }
