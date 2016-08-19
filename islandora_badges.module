@@ -124,6 +124,10 @@ function islandora_badges_block_view($delta) {
 /** Web of Science block */
    case 'islandora_badges_wos':
       $object = menu_get_object('islandora_object', 2);
+      // Limit to citations with MODS DS -- see above.
+      if (!in_array('ir:citationCModel', $object->models) || !isset($object['MODS'])) {
+        return;
+       }
       // Get DOI.
       $doc = new DOMDocument();
       $doc->loadXML($object['MODS']->content);
