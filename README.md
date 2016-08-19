@@ -61,9 +61,10 @@ Future development:
 * Remove the restriction that limits badges to Citation objects
 * Add more badges
 
-## Documentation
+## Styling
 
-Further documentation for this module is available at [our wiki](https://wiki.duraspace.org/display/ISLANDORA/Islandora+Altmetrics).
+The Web of Science block creates a div with the class "wos_badge" to facilitate CSS styling.
+The Drupal [Block Class module](https://www.drupal.org/project/block_class) helps to facilitate block positioning with CSS.
 
 ## Troubleshooting/Issues
 
@@ -84,7 +85,7 @@ If you would like to contribute to this module, please check out [CONTRIBUTING.m
 
 ## Notes
 
-Built by [Mark Jordan](https://github.com/mjordan) and [Brandon Weigel](https://github.com/bondjimbond) for the second iCampBC in July 2016. Makes heavy use of the [Islandora Altmetrics](https://github.com/Islandora/islandora_altmetrics) code written by [William Panting](https://github.com/willtp87). Thanks also to [Marcus Barnes](https://github.com/MarcusBarnes) for demonstrating how to assign array data to variables, which enabled development on the Web of Science branch.
+Built by [Mark Jordan](https://github.com/mjordan) and [Brandon Weigel](https://github.com/bondjimbond) at the second iCampBC in July 2016. Makes heavy use of the [Islandora Altmetrics](https://github.com/Islandora/islandora_altmetrics) code written by [William Panting](https://github.com/willtp87). Thanks also to [Marcus Barnes](https://github.com/MarcusBarnes) for demonstrating how to assign array data to variables, which allowed me to figure out the Web of Science branch.
 
 ## License
 
