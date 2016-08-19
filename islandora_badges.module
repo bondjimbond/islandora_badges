@@ -53,10 +53,32 @@ function islandora_badges_block_info() {
  
 function islandora_badges_block_view($delta) {
   $to_render = array();
+
+  // Move 'Get DOI' bits out of the switch
+  $object = menu_get_object('islandora_object', 2);
+      // Get DOI.
+  if (!isset($object['MODS'])) {
+      return;
+     }
+    $doc = new DOMDocument();
+    $doc->loadXML($object['MODS']->content);
+    $xpath = new DOMXPath($doc);
+    $xpath->registerNamespace('mods', 'http://www.loc.gov/mods/v3');
+    $xpath_results = $xpath->query(
+      variable_get('islandora_badges_doi_xpath', '/mods:mods/mods:identifier[@type="doi"]')
+    );
+    if ($xpath_results->length == 0) {
+      return;
+    }
+    $doi = $xpath_results->item(0)->nodeValue;
+    if (!$doi) {
+      return;
+    }
+
   switch ($delta) {
     // Load the Altmetrics block
     case 'islandora_badges_altmetrics':
-      $object = menu_get_object('islandora_object', 2);
+/*      $object = menu_get_object('islandora_object', 2);
       // Get DOI.
       if (!isset($object['MODS'])) {
         return;
@@ -75,7 +97,7 @@ function islandora_badges_block_view($delta) {
       if (!$doi) {
         return;
       }
-
+*/
       // Embed Altmetrics.
       $to_render['content']['altmetrics'] = array(
         '#type' => 'container',
@@ -92,7 +114,7 @@ function islandora_badges_block_view($delta) {
  
   // Load the Scopus block
    case 'islandora_badges_scopus':
-      $object = menu_get_object('islandora_object', 2);
+  /*    $object = menu_get_object('islandora_object', 2);
       // Get DOI.
       if (!isset($object['MODS'])) {
         return;
@@ -111,7 +133,7 @@ function islandora_badges_block_view($delta) {
       if (!$doi) {
         return;
       }
-
+*/
       // Embed Scopus.
       // Assemble the Scopus API request URL
       $api_key = variable_get('islandora_badges_scopus_api_key', 'b3a71de2bde04544495881ed9d2f9c5b');
@@ -129,7 +151,7 @@ function islandora_badges_block_view($delta) {
 
 /** Web of Science block */
    case 'islandora_badges_wos':
-      $object = menu_get_object('islandora_object', 2);
+/*      $object = menu_get_object('islandora_object', 2);
       // Limit to citations with MODS DS -- see above.
       if (!in_array('ir:citationCModel', $object->models) || !isset($object['MODS'])) {
         return;
@@ -149,7 +171,7 @@ function islandora_badges_block_view($delta) {
       if (!$doi) {
         return;
       }
- 
+*/ 
     // Embed Web of Science.
 
     // Get the WoS AMR username and password from the admin config.
