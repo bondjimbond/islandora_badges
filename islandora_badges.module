@@ -227,7 +227,7 @@ foreach ($wos_result->fn->map->map->map->val as $val) {
 
 // If there is no error return data
   if (empty($result ->error)) {
-      $to_render['content'] = '<a href="' . $citingArticlesURL . '" target="_blank">Web of Science citations: ' . $timesCited . '</a>';
+      $to_render['content'] = '<div class="wos_badge"><a href="' . $citingArticlesURL . '" target="_blank">Web of Science citations: ' . $timesCited . '</a></div>';
   }
       
 }
