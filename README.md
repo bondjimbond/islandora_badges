@@ -11,7 +11,7 @@ Take note:
 
 **The Altmetrics piece** uses the [Altmetrics API](http://api.altmetric.com/). Before using this module one should familiarize oneself with the licensing.
 
-**The Scopus piece** uses the [Scopus Abstract Citation Count API](https://api.elsevier.com/documentation/AbstractCitationCountAPI.wadl). A default API key is included, but this is intended for demo purposes only and is very limited. You should get your own free API key from Scopus.
+**The Scopus piece** uses the [Scopus Abstract Citation Count API](https://api.elsevier.com/documentation/AbstractCitationCountAPI.wadl). A default API key is included, but this is intended for demo purposes only and is very limited. You should [get your own free API key from Scopus](https://dev.elsevier.com/apikey/create).
 
 **The Web of Science piece** uses the WOS [Article Match Retrieval (AMR)](http://ipscience-help.thomsonreuters.com/LAMRService/WebServiceOperationsGroup/requestAPIWoS.html) service. Credentials are required to use the API, but not to view the results. Web of Science subscribers are entitled to credentials - contact your account manager to get set up.
 
@@ -39,7 +39,7 @@ There are six administration fields:
      * Pefines the location where the [popover displays](http://api.altmetric.com/embeds.html#popovers). Current options are left, right, top or bottom. Case sensitive.
 * Scopus API Key
      * Required to acquire citation counts. Do not use the included default in production - it's for demo purposes only. 
-     * You can get a [free API key](http://dev.elsevier.com/sc_apis.html) without subscribing
+     * You can get a [free API key](https://dev.elsevier.com/apikey/create) without subscribing
 * Web of Science username/password
      * No default is provided, and the service won't work without these. 
      * If you are a WOS subscriber, you can request AMR credentials from your account manager.
@@ -61,9 +61,10 @@ Future development:
 * Remove the restriction that limits badges to Citation objects
 * Add more badges
 
-## Documentation
+## Styling
 
-Further documentation for this module is available at [our wiki](https://wiki.duraspace.org/display/ISLANDORA/Islandora+Altmetrics).
+The Web of Science block creates a div with the class "wos_badge" to facilitate CSS styling.
+The Drupal [Block Class module](https://www.drupal.org/project/block_class) helps to facilitate block positioning with CSS.
 
 ## Troubleshooting/Issues
 
@@ -84,7 +85,7 @@ If you would like to contribute to this module, please check out [CONTRIBUTING.m
 
 ## Notes
 
-Built by [Mark Jordan](https://github.com/mjordan) and [Brandon Weigel](https://github.com/bondjimbond) for the second iCampBC in July 2016. Makes heavy use of the [Islandora Altmetrics](https://github.com/Islandora/islandora_altmetrics) code written by [William Panting](https://github.com/willtp87). Thanks also to [Marcus Barnes](https://github.com/MarcusBarnes) for demonstrating how to assign array data to variables, which enabled development on the Web of Science branch.
+Built by [Mark Jordan](https://github.com/mjordan) and [Brandon Weigel](https://github.com/bondjimbond) at the second iCampBC in July 2016. Makes heavy use of the [Islandora Altmetrics](https://github.com/Islandora/islandora_altmetrics) code written by [William Panting](https://github.com/willtp87). Thanks also to [Marcus Barnes](https://github.com/MarcusBarnes) for demonstrating how to assign array data to variables, which allowed me to figure out the Web of Science branch.
 
 ## License
 

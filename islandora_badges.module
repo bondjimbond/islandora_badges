@@ -155,9 +155,7 @@ function islandora_badges_block_view($delta) {
     // Get the WoS AMR username and password from the admin config.
       $wos_username = variable_get('islandora_badges_wos_username');
       $wos_password = variable_get('islandora_badges_wos_password');
-    
-    // Looks like a Hong Kong IR uses JS to generate results in an image: http://repository.ust.hk/ir/themes/hkust/js/hkust_wos_api.js
-    
+
     // Set API endpoint URL
     $url = "https://ws.isiknowledge.com/cps/xrpc";
 
@@ -229,7 +227,7 @@ foreach ($wos_result->fn->map->map->map->val as $val) {
 
 // If there is no error return data
   if (empty($result ->error)) {
-      $to_render['content'] = '<a href="' . $citingArticlesURL . '" target="_blank">Web of Science citations: ' . $timesCited . '</a>';
+      $to_render['content'] = '<div class="wos_badge"><a href="' . $citingArticlesURL . '" target="_blank">Web of Science citations: ' . $timesCited . '</a></div>';
   }
       
 }
