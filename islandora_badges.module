@@ -152,7 +152,7 @@ function islandora_badges_block_view($delta) {
     $url = "https://ws.isiknowledge.com/cps/xrpc";
 
 
-//Store your XML Request in a variable - not ideal but I don't know how to send an XML file by POST (ha ha)
+//Store your XML Request in a string - not ideal but I don't know how to send an XML file by POST (ha ha)
       $input_xml = '<?xml version="1.0" encoding="UTF-8" ?>
       <request xmlns="http://www.isinet.com/xrpc42" src="app.id=API Demo">
       <fn name="LinksAMR.retrieve">
@@ -166,12 +166,7 @@ function islandora_badges_block_view($delta) {
         <map>
           <list name="WOS">
             <val>timesCited</val>
-            <val>ut</val>
-            <val>doi</val>
-            <val>pmid</val>
-            <val>sourceURL</val>
             <val>citingArticlesURL</val>
-            <val>relatedRecordsURL</val>
           </list>
         </map>
         <!-- LOOKUP DATA -->
@@ -183,6 +178,8 @@ function islandora_badges_block_view($delta) {
       </list>
     </fn>
   </request>';
+
+// Post the request and get results!
       
 $result = drupal_http_request($url, array(
   'headers' => array('Content-Type' => 'text/xml'),
@@ -191,11 +188,40 @@ $result = drupal_http_request($url, array(
   'timeout' => 10
 ));
 
+// Convert the response to an array and remove the CDATA tags
+
+$wos_result = simplexml_load_string($result->data, 'SimpleXMLElement', LIBXML_NOCDATA);
+
+
+// Default - zero citations -- should this really be present?
+$timesCited = 0;
+
+// Default - citingArticlesURL - no citing articles = empty array
+$citingArticlesURL = array();
+
+// Get the values into the variables
+
+foreach ($wos_result->fn->map->map->map->val as $val) {
+	switch((string) $val['name']) { // Get attributes as element indices
+		case 'timesCited':
+			$timesCited = $val[0];
+			break;
+		case 'citingArticlesURL':
+			// URL is child node of <val name="citingArticlesURL"> in CDATA section.
+			// We need to pull this out.
+			// Possible that there could be multiple citingArticlesURL values and thus needs an array... Is this true?
+
+			$citingArticlesURL = $val[0];
+
+			break;
+		}
+	}
+
 // If there is no error return data
-if (empty($result ->error)) {
-    $to_render['content'] = $result ->data;
-}
-      
+  if (empty($result ->error)) {
+      $to_render['content'] = '<a href="' . $citingArticlesURL . '" target="_blank">Web of Science citations: ' . $timesCited . '</a>';
   }
+      
+}
   return $to_render;
 }
