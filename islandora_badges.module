@@ -194,7 +194,7 @@ function islandora_badges_block_view($delta) {
 		$to_render['content'] = '<div class="wos_badge"><a href="' . $citingArticlesURL . '" target="_blank">Web of Science citations: ' . $timesCited . '</a></div>';
 	  }
 	  elseif ($badgeType == 0)  {
-          	$to_render['content'] = '<div class="wos_badge"><a href="' . $citingArticlesURL . '" target="_blank"><img src=https://img.shields.io/badge/Web%20of%20Science%20citations-' . $timesCited . '-orange.svg?style=flat"></img></a></div>';
+          	$to_render['content'] = '<a href="' . $citingArticlesURL . '" target="_blank"><img src=https://img.shields.io/badge/Web%20of%20Science%20citations-' . $timesCited . '-orange.svg?style=flat"></img></a>';
 	  }
       }
       
