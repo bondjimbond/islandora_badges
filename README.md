@@ -21,6 +21,7 @@ This module requires the following modules/libraries:
 
 * [Islandora](https://github.com/islandora/islandora)
 * [Tuque](https://github.com/islandora/tuque)
+* Probably a given for most repositories, but your objects must have a MODS datastream
 
 ## Installation
 
