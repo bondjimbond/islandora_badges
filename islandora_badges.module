@@ -23,25 +23,26 @@ function islandora_badges_menu() {
 
 /**
  * Implements hook_block_info().
+ * DRUPAL_CACHE_PER_PAGE set so that not too many API calls are made.
  */
 function islandora_badges_block_info() {
   return array(
     'islandora_badges_altmetrics' => array(
       'visibility' => BLOCK_VISIBILITY_LISTED,
       'pages' => 'islandora/object/*',
-      'cache' => DRUPAL_NO_CACHE,
+      'cache' => DRUPAL_CACHE_PER_PAGE,
       'info' => t('Islandora Altmetrics'),
     ),
     'islandora_badges_scopus' => array(
       'visibility' => BLOCK_VISIBILITY_LISTED,
       'pages' => 'islandora/object/*',
-      'cache' => DRUPAL_NO_CACHE,
+      'cache' => DRUPAL_CACHE_PER_PAGE,
       'info' => t('Islandora Scopus'),  
     ),
     'islandora_badges_wos' => array(
       'visibility' => BLOCK_VISIBILITY_LISTED,
       'pages' => 'islandora/object/*',
-      'cache' => DRUPAL_NO_CACHE,
+      'cache' => DRUPAL_CACHE_PER_PAGE,
       'info' => t('Islandora Web of Science'),  
     ),    
   );
@@ -185,9 +186,16 @@ function islandora_badges_block_view($delta) {
 		}
 	}
 
+
     // If there is no error return data
       if (empty($result ->error)) {
-          $to_render['content'] = '<div class="wos_badge"><a href="' . $citingArticlesURL . '" target="_blank">Web of Science citations: ' . $timesCited . '</a></div>';
+          $badgeType = variable_get('islandora_badges_wos_badgetype');
+	  if ($badgeType == 1) {
+		$to_render['content'] = '<div class="wos_badge"><a href="' . $citingArticlesURL . '" target="_blank">Web of Science citations: ' . $timesCited . '</a></div>';
+	  }
+	  elseif ($badgeType == 0)  {
+          	$to_render['content'] = '<div class="wos_badge"><a href="' . $citingArticlesURL . '" target="_blank"><img src=https://img.shields.io/badge/Web%20of%20Science%20citations-' . $timesCited . '-orange.svg?style=flat"></img></a></div>';
+	  }
       }
       
     }
