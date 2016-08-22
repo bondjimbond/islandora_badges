@@ -43,6 +43,9 @@ There are six administration fields:
 * Web of Science username/password
      * No default is provided, and the service won't work without these. 
      * If you are a WOS subscriber, you can request AMR credentials from your account manager.
+* Web of Science badge type
+     * You can choose between plain text or an automatically-generated image
+     * Plain text is offered for custom styling. The text badge has the CSS clas "wos_badge" to make this easier.
 * DOI XPath
      * The XPath to the DOI element e.g. /mods:mods/mods:identifier[@type="doi"] 
      * A default is included and should serve most repositories, but you can change it if yours is located elsewhere.
@@ -63,7 +66,7 @@ Future development:
 
 ## Styling
 
-The Web of Science block creates a div with the class "wos_badge" to facilitate CSS styling.
+The Web of Science block (text badge option) creates a div with the class "wos_badge" to facilitate CSS styling.
 The Drupal [Block Class module](https://www.drupal.org/project/block_class) helps to facilitate block positioning with CSS.
 
 ## Troubleshooting/Issues
@@ -85,7 +88,7 @@ If you would like to contribute to this module, please check out [CONTRIBUTING.m
 
 ## Notes
 
-Built by [Mark Jordan](https://github.com/mjordan) and [Brandon Weigel](https://github.com/bondjimbond) at the second iCampBC in July 2016. Makes heavy use of the [Islandora Altmetrics](https://github.com/Islandora/islandora_altmetrics) code written by [William Panting](https://github.com/willtp87). Thanks also to [Marcus Barnes](https://github.com/MarcusBarnes) for demonstrating how to assign array data to variables, which allowed me to figure out the Web of Science branch.
+Originally forked from [William Panting's](https://github.com/willtp87) [Islandora Altmetrics](https://github.com/Islandora/islandora_altmetrics) module by [Mark Jordan](https://github.com/mjordan) and [Brandon Weigel](https://github.com/bondjimbond) at the second iCampBC in July 2016. Much thanks to Mark for continued help and mentorship as I use this module to learn coding. Thanks also to [Marcus Barnes](https://github.com/MarcusBarnes) for demonstrating how to assign array data to variables, which allowed me to figure out the Web of Science branch.
 
 ## License
 
