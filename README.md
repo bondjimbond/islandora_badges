@@ -15,6 +15,8 @@ Take note:
 
 **The Web of Science piece** uses the WOS [Article Match Retrieval (AMR)](http://ipscience-help.thomsonreuters.com/LAMRService/WebServiceOperationsGroup/requestAPIWoS.html) service. Credentials are required to use the API, but not to view the results. Web of Science subscribers are entitled to credentials - contact your account manager to get set up.
 
+Badges will only display on objects that have a DOI (digital object identifier). The xpath to the DOI field is configurable.
+
 ## Requirements
 
 This module requires the following modules/libraries:
