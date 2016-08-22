@@ -119,7 +119,7 @@ function islandora_badges_block_view($delta) {
       $wos_password = variable_get('islandora_badges_wos_password');
 
     // Set API endpoint URL
-    $url = "https://ws.isiknowledge.com/cps/xrpc";
+      $url = "https://ws.isiknowledge.com/cps/xrpc";
 
 
     //Store your XML Request in a string - not ideal but I don't know how to send an XML file by POST (ha ha)
@@ -151,26 +151,26 @@ function islandora_badges_block_view($delta) {
 
     // Post the request and get results!
       
-    $result = drupal_http_request($url, array(
-      'headers' => array('Content-Type' => 'text/xml'),
-      'data' => $input_xml,
-      'method' => 'POST',
-      'timeout' => 10
-    ));
+      $result = drupal_http_request($url, array(
+        'headers' => array('Content-Type' => 'text/xml'),
+        'data' => $input_xml,
+        'method' => 'POST',
+        'timeout' => 10
+      ));
 
     // Convert the response to an array and remove the CDATA tags
 
-    $wos_result = simplexml_load_string($result->data, 'SimpleXMLElement', LIBXML_NOCDATA);
+      $wos_result = simplexml_load_string($result->data, 'SimpleXMLElement', LIBXML_NOCDATA);
 
     // Default - zero citations -- should this really be present?
-    $timesCited = 0;
+      $timesCited = 0;
 
     // Default - citingArticlesURL - no citing articles = empty array
-    $citingArticlesURL = array();
+      $citingArticlesURL = array();
 
     // Get the values into the variables
 
-    foreach ($wos_result->fn->map->map->map->val as $val) {
+      foreach ($wos_result->fn->map->map->map->val as $val) {
 	switch((string) $val['name']) { // Get attributes as element indices
 		case 'timesCited':
 			$timesCited = $val[0];
@@ -199,5 +199,5 @@ function islandora_badges_block_view($delta) {
       }
       
     }
-  return $to_render;
-}
+    return $to_render;
+  }
