@@ -22,7 +22,7 @@ function islandora_badges_menu() {
 }
 
 /**
- * Implements hook_block_info().
+ * Implements hook_block_info(). Creates blocks.
  * DRUPAL_CACHE_PER_PAGE set so that not too many API calls are made.
  */
 function islandora_badges_block_info() {
