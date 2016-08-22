@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Islandora Badges displays Altmetrics badges, Scopus Citation Count badges, and Web of Science citation counts on objects. This is mostly based on the [Islandora Altmetrics module](https://github.com/Islandora/islandora_altmetrics), expanded to include Scopus and Web of Science.
+Islandora Badges displays Altmetrics badges, Scopus Citation Count badges, and Web of Science citation counts on objects. This is built on top of on the [Islandora Altmetrics module](https://github.com/Islandora/islandora_altmetrics), expanded to include Scopus and Web of Science.
 
 Take note: 
 - You do NOT need to be a Scopus subscriber to use or view the Scopus piece. You can [get a Scopus API key for free](http://dev.elsevier.com/sc_apis.html).
