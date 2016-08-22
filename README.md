@@ -30,7 +30,7 @@ Install as usual, see [this](https://drupal.org/documentation/install/modules-th
 
 Configuration path is admin/islandora/tools/badges (Administration > Islandora > Islandora Utility Modules > Islandora Badges Configuration).
 
-There are six administration fields:
+There are seven administration fields:
 
 * Altmetric Badge
      * Provide one of the [badge types](http://api.altmetric.com/embeds.html#badge-types) defined by Altmetrics. Default is the small rectangular badge. Other options include various doughnut shapes and differently styled rectangles.
