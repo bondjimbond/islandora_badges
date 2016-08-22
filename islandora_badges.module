@@ -72,7 +72,23 @@ function islandora_badges_block_view($delta) {
       return;
     }
     $doi = $xpath_results->item(0)->nodeValue;
+
+// If no DOI, get the Title. This doesn't work yet.
+// Problem: for some reason, $xpath_results->item(0)->nodeValue becomes the title three times in a row!
     if (!$doi) {
+	$doc = new DOMDocument();
+    	$doc->loadXML($object['MODS']->content);
+    	$xpath = new DOMXPath($doc);
+    	$xpath->registerNamespace('mods', 'http://www.loc.gov/mods/v3');
+    	$xpath_results = $xpath->query(
+     	 	variable_get('islandora_badges_title_xpath', '/mods:mods/mods:titleInfo/mods:title')
+    		);
+    	if ($xpath_results->length == 0) {
+     		 return;
+   	}
+	$title = $xpath_results->item(0)->nodeValue;
+//	echo $title;
+
       return;
     }
 

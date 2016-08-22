@@ -57,5 +57,13 @@ function islandora_badges_admin_form($form, $form_settings) {
     '#description' => t('MODS XPath for retrieving the DOI.'),
     '#default_value' => variable_get('islandora_badges_doi_xpath', '/mods:mods/mods:identifier[@type="doi"]'),
   );
+
+  $form['islandora_badges_title_xpath'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Title XPath'),
+    '#description' => t('MODS XPath for retrieving the title.'),
+    '#default_value' => variable_get('islandora_badges_doi_xpath', '/mods:mods/mods:titleInfo/mods:title'),
+  );
+
   return system_settings_form($form);
 }
