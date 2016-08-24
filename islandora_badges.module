@@ -72,14 +72,15 @@ function islandora_badges_block_view($delta) {
       return;
     }
     $doi = $xpath_results->item(0)->nodeValue;
+echo $doi;
 
 // If no DOI, get the Title. This doesn't work yet.
 // Problem: for some reason, $xpath_results->item(0)->nodeValue becomes the title three times in a row!
-    if (!$doi) {
-	$doc = new DOMDocument();
-    	$doc->loadXML($object['MODS']->content);
-    	$xpath = new DOMXPath($doc);
-    	$xpath->registerNamespace('mods', 'http://www.loc.gov/mods/v3');
+//    if (!$doi) {
+//	$doc = new DOMDocument();
+//    	$doc->loadXML($object['MODS']->content);
+//    	$xpath = new DOMXPath($doc);
+//    	$xpath->registerNamespace('mods', 'http://www.loc.gov/mods/v3');
     	$xpath_results = $xpath->query(
      	 	variable_get('islandora_badges_title_xpath', '/mods:mods/mods:titleInfo/mods:title')
     		);
@@ -87,10 +88,12 @@ function islandora_badges_block_view($delta) {
      		 return;
    	}
 	$title = $xpath_results->item(0)->nodeValue;
-//	echo $title;
+	echo $title;
+
+
 
       return;
-    }
+//    }  // This ends the IF (!$doi) statement, which I'm looking at cutting
 
   switch ($delta) {
     // Load the Altmetrics block
@@ -114,8 +117,18 @@ function islandora_badges_block_view($delta) {
       // Embed Scopus.
       // Assemble the Scopus API request URL
       $api_key = variable_get('islandora_badges_scopus_api_key', 'b3a71de2bde04544495881ed9d2f9c5b');
+
+
+if (!$doi) {
+	$scopus_url = "http://api.elsevier.com:80/content/abstract/citation-count?title=" .
+        urlencode($title) . "&apiKey=" . $api_key . "&httpAccept=text%2Fhtml";
+	}
+else {
       $scopus_url = "http://api.elsevier.com:80/content/abstract/citation-count?doi=" .
         urlencode($doi) . "&apiKey=" . $api_key . "&httpAccept=text%2Fhtml";
+	}
+
+
       // Hit the API.
       $response = drupal_http_request($scopus_url);
       if (preg_match('/alt=\"unavailable\"/', $response->data)) {
