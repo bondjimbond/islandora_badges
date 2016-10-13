@@ -22,6 +22,7 @@ Badges will only display on objects that have a DOI (digital object identifier).
 This module requires the following modules/libraries:
 
 * [Islandora](https://github.com/islandora/islandora)
+* [Islandora Scholar](https://github.com/Islandora/islandora_scholar)
 * [Tuque](https://github.com/islandora/tuque)
 * Probably a given for most repositories, but your objects must have a MODS datastream
 
