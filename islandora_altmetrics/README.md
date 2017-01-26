@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Islandora Altmetrics provides Altmetrics integration on citation objects as provided by [Islandora Scholar](https://github.com/Islandora/islandora_scholar).
+Islandora Altmetrics provides a Altmetrics integration badge on citation objects for use with [Islandora Badges](../) as provided by [Islandora Scholar](https://github.com/Islandora/islandora_scholar).
 
 This modules uses the [Altmetrics API](http://api.altmetric.com/). Before using this module one should familiarize oneself with the licensing.
 
@@ -12,6 +12,7 @@ This module requires the following modules/libraries:
 
 * [Islandora](https://github.com/islandora/islandora)
 * [Islandora Scholar](https://github.com/Islandora/islandora_scholar)
+* [Islandora Badges](../)
 * [Tuque](https://github.com/islandora/tuque)
 
 ## Installation
@@ -20,16 +21,14 @@ Install as usual, see [this](https://drupal.org/documentation/install/modules-th
 
 ## Configuration
 
-Configuration path is admin/islandora/tools/altmetrics (Administration > Islandora > Islander Utility Modules > Islandora Altmetrics Configuration).
+Configuration path is admin/islandora/tools/altmetrics (Administration > Islandora > Islandora Utility Modules > Islandora Badges Configuration > Altmetrics).
 
-There are three administration options:
+There are two administration options:
 
 * Altmetric Badge
      * provide one of the [badge types](http://api.altmetric.com/embeds.html#badge-types) defined by Altmetrics. Default is the small rectangular badges. Other options include 
 * Altmetrics Popover
      * defines the location where the [popover displays](http://api.altmetric.com/embeds.html#popovers). Current options are left, right, top or bottom.
-* DOI XPath
-     * the XPath to the DOI element e.g. /mods:mods/mods:identifier[@type="doi"] 
 
 ![](https://raw.githubusercontent.com/wiki/dmoses/islandora_altmetrics/islandora_altmetrics_config.png)
 
