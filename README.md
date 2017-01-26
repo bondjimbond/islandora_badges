@@ -38,9 +38,9 @@ There is one administration fields:
 
 These modules provide the actual badges:
 
-* [Islandora Altmetrics](islandora_altmetrics/)
-* [Islandora Scopus](islandora_scopus/)
-* [Islandora Web of Science](islandora_wos/)
+* [Islandora Altmetrics](modules/islandora_altmetrics/)
+* [Islandora Scopus](modules/islandora_scopus/)
+* [Islandora Web of Science](modules/islandora_wos/)
 
 ## Troubleshooting/Issues
 

@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Islandora Web of Science provides an [Islandora Badges](../) badge block which displays Web of Science citation counts on objects.
+Islandora Web of Science provides block which displays Web of Science citation counts on objects for use with Islandora Badges.
 
 Take note: 
 - You **DO** need to be a Web of Science subscriber to get AMR credentials, but citation counts and links can be viewed by the general public.
@@ -17,7 +17,7 @@ This module requires the following modules/libraries:
 
 * [Islandora](https://github.com/islandora/islandora)
 * [Islandora Scholar](https://github.com/Islandora/islandora_scholar)
-* [Islandora Badges](../)
+* [Islandora Badges](../../)
 * [Tuque](https://github.com/islandora/tuque)
 * Probably a given for most repositories, but your objects must have a MODS datastream
 

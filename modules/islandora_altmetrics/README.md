@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Islandora Altmetrics provides a Altmetrics integration badge on citation objects for use with [Islandora Badges](../) as provided by [Islandora Scholar](https://github.com/Islandora/islandora_scholar).
+Islandora Altmetrics provides a Altmetrics integration badge on citation objects for use with Islandora Badges as provided by [Islandora Scholar](https://github.com/Islandora/islandora_scholar).
 
 This modules uses the [Altmetrics API](http://api.altmetric.com/). Before using this module one should familiarize oneself with the licensing.
 
@@ -12,7 +12,7 @@ This module requires the following modules/libraries:
 
 * [Islandora](https://github.com/islandora/islandora)
 * [Islandora Scholar](https://github.com/Islandora/islandora_scholar)
-* [Islandora Badges](../)
+* [Islandora Badges](../../)
 * [Tuque](https://github.com/islandora/tuque)
 
 ## Installation
