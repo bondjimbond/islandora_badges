@@ -9,13 +9,13 @@
  */
 function islandora_altmetrics_menu() {
   return array(
-    'admin/islandora/tools/altmetrics' => array(
-      'title' => 'Islandora Altmetrics Configuration',
+    'admin/islandora/tools/badges/altmetrics' => array(
+      'title' => 'Altmetrics',
       'description' => 'Configure Altmetrics integration.',
       'page callback' => 'drupal_get_form',
       'page arguments' => array('islandora_altmetrics_admin_form'),
       'access arguments' => array('administer site configuration'),
-      'type' => MENU_NORMAL_ITEM,
+      'type' => MENU_LOCAL_TASK,
       'file' => 'includes/admin.form.inc',
     ),
   );
@@ -26,11 +26,11 @@ function islandora_altmetrics_menu() {
  */
 function islandora_altmetrics_block_info() {
   return array(
-    'islandora_altmetrics_altmetrics' => array(
+    'islandora_altmetrics_badge' => array(
       'visibility' => BLOCK_VISIBILITY_LISTED,
       'pages' => 'islandora/object/*',
       'cache' => DRUPAL_NO_CACHE,
-      'info' => t('Islandora Altmetrics'),
+      'info' => t('Islandora Altmetrics Badge'),
     ),
   );
 }
@@ -39,41 +39,30 @@ function islandora_altmetrics_block_info() {
  * Implements hook_block_view().
  */
 function islandora_altmetrics_block_view($delta) {
+  module_load_include('inc', 'islandora_badges', 'includes/utilities');
   $to_render = array();
-
-  switch ($delta) {
-    case 'islandora_altmetrics_altmetrics':
-      $object = menu_get_object('islandora_object', 2);
-      // Limit to citations with MODS DS.
-      if (!in_array('ir:citationCModel', $object->models) || !isset($object['MODS'])) {
-        return;
+  if ($delta == 'islandora_altmetrics_badge') {
+    $object = menu_get_object('islandora_object', 2);
+    if ($object) {
+      if (in_array('ir:citationCModel', $object->models)) {
+        // Only allowed on citationCModel objects... not sure why
+        $doi = islandora_badges_get_doi($object);
+        if ($doi) {
+          // Embed Altmetrics.
+          $to_render['content']['altmetrics'] = array(
+            '#type' => 'container',
+            '#attributes' => array(
+              'class' => array('altmetric-embed'),
+              'data-badge-type' => variable_get('islandora_altmetrics_badge', 'Default'),
+              'data-doi' => $doi,
+              'data-badge-popover' => variable_get('islandora_altmetrics_popover', 'right'),
+              'data-hide-no-mentions' => 'true',
+            ),
+          );
+          drupal_add_js('https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js', 'external');
+        }
       }
-      // Get DOI.
-      $doc = new DOMDocument();
-      $doc->loadXML($object['MODS']->content);
-      $xpath = new DOMXPath($doc);
-      $xpath->registerNamespace('mods', 'http://www.loc.gov/mods/v3');
-      $xpath_results = $xpath->query(
-        variable_get('islandora_altmetrics_doi_xpath', '/mods:mods/mods:identifier[@type="doi"]')
-      );
-      $doi = $xpath_results->item(0)->nodeValue;
-      if (!$doi) {
-        return;
-      }
-
-      // Embed Altmetrics.
-      $to_render['content']['altmetrics'] = array(
-        '#type' => 'container',
-        '#attributes' => array(
-          'class' => array('altmetric-embed'),
-          'data-badge-type' => variable_get('islandora_altmetrics_badge', 'Default'),
-          'data-doi' => $doi,
-          'data-badge-popover' => variable_get('islandora_altmetrics_popover', 'right'),
-          'data-hide-no-mentions' => 'true',
-        ),
-      );
-      drupal_add_js('https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js', 'external');
-      break;
+    }
   }
   return $to_render;
 }

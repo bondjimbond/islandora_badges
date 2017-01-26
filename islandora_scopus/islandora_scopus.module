@@ -1,0 +1,62 @@
+<?php
+/**
+ * @file
+ * Normal module functions
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function islandora_scopus_menu() {
+  return array(
+    'admin/islandora/tools/badges/scopus' => array(
+      'title' => 'Scopus',
+      'description' => 'Configure Scopus integration.',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('islandora_scopus_admin_form'),
+      'access arguments' => array('administer site configuration'),
+      'type' => MENU_LOCAL_TASK,
+      'file' => 'includes/admin.form.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function islandora_scopus_block_info() {
+  return array(
+    'islandora_scope_badge' => array(
+      'visibility' => BLOCK_VISIBILITY_LISTED,
+      'pages' => 'islandora/object/*',
+      'cache' => DRUPAL_NO_CACHE,
+      'info' => t('Islandora Scopus Badge'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function islandora_scopus_block_view($delta = '') {
+  module_load_include('inc', 'islandora_badges', 'includes/utilities');
+  $to_render = array();
+  if ($delta == '')
+  $object = menu_get_object('islandora_object', 2);
+  if ($object) {
+    $doi = islandora_badges_get_doi($object);
+    if ($doi) {
+      // Embed Scopus.
+      // Assemble the Scopus API request URL
+      $api_key = variable_get('islandora_badges_scopus_api_key', 'b3a71de2bde04544495881ed9d2f9c5b');
+      $scopus_url = "http://api.elsevier.com:80/content/abstract/citation-count?doi=" .
+        urlencode($doi) . "&apiKey=" . $api_key . "&httpAccept=text%2Fhtml";
+      // Hit the API.
+      $response = drupal_http_request($scopus_url);
+      if (!preg_match('/alt=\"unavailable\"/', $response->data)) {
+        $to_render['content'] = $response->data;
+      }
+    }
+  }
+  return $to_render;
+}
