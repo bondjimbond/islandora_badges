@@ -29,7 +29,7 @@ function islandora_scopus_block_info() {
     'islandora_scopus_badge' => array(
       'visibility' => BLOCK_VISIBILITY_LISTED,
       'pages' => 'islandora/object/*',
-      'cache' => DRUPAL_NO_CACHE,
+      'cache' => DRUPAL_CACHE_PER_PAGE,,
       'info' => t('Islandora Scopus Badge'),
     ),
   );
