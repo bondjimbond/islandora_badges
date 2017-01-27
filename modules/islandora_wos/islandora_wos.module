@@ -50,16 +50,17 @@ function islandora_wos_block_view($delta = '') {
         // Embed Web of Science.
 
         // Get the WoS AMR username and password from the admin config.
-        $wos_username = variable_get('islandora_wos_username');
-        $wos_password = variable_get('islandora_wos_password');
+        $wos_username = variable_get('islandora_wos_username', 'none');
+        $wos_password = variable_get('islandora_wos_password', 'none');
 
-        // Set API endpoint URL
-        // @TODO: Add to admin form
-        $url = "https://ws.isiknowledge.com/cps/xrpc";
+        if ($wos_username != 'none' && $wos_password != 'none') {
+          // Set API endpoint URL
+          // @TODO: Add to admin form
+          $url = "https://ws.isiknowledge.com/cps/xrpc";
 
 
-        //Store your XML Request in a string - not ideal but I don't know how to send an XML file by POST (ha ha)
-        $input_xml = '<?xml version="1.0" encoding="UTF-8" ?>
+          //Store your XML Request in a string - not ideal but I don't know how to send an XML file by POST (ha ha)
+          $input_xml = '<?xml version="1.0" encoding="UTF-8" ?>
       <request xmlns="http://www.isinet.com/xrpc42" src="app.id=API Demo">
         <fn name="LinksAMR.retrieve">
           <list>
@@ -85,50 +86,51 @@ function islandora_wos_block_view($delta = '') {
         </fn>
       </request>';
 
-        // Post the request and get results!
+          // Post the request and get results!
 
-        $result = drupal_http_request($url, array(
-          'headers' => array('Content-Type' => 'text/xml'),
-          'data' => $input_xml,
-          'method' => 'POST',
-          'timeout' => 10
-        ));
+          $result = drupal_http_request($url, array(
+            'headers' => array('Content-Type' => 'text/xml'),
+            'data' => $input_xml,
+            'method' => 'POST',
+            'timeout' => 10
+          ));
 
-        // Convert the response to an array and remove the CDATA tags
+          // Convert the response to an array and remove the CDATA tags
 
-        $wos_result = simplexml_load_string($result->data, 'SimpleXMLElement', LIBXML_NOCDATA);
+          $wos_result = simplexml_load_string($result->data, 'SimpleXMLElement', LIBXML_NOCDATA);
 
-        // Default - zero citations -- should this really be present?
-        $timesCited = 0;
+          // Default - zero citations -- should this really be present?
+          $timesCited = 0;
 
-        // Default - citingArticlesURL - no citing articles = empty array
-        $citingArticlesURL = array();
+          // Default - citingArticlesURL - no citing articles = empty array
+          $citingArticlesURL = array();
 
-        // Get the values into the variables
+          // Get the values into the variables
 
-        foreach ($wos_result->fn->map->map->map->val as $val) {
-          switch ((string) $val['name']) { // Get attributes as element indices
-            case 'timesCited':
-              $timesCited = $val[0];
-              break;
-            case 'citingArticlesURL':
-              // URL is child node of <val name="citingArticlesURL"> in CDATA section.
-              // We need to pull this out.
-              // Possible that there could be multiple citingArticlesURL values and thus needs an array... Is this true?
+          foreach ($wos_result->fn->map->map->map->val as $val) {
+            switch ((string) $val['name']) { // Get attributes as element indices
+              case 'timesCited':
+                $timesCited = $val[0];
+                break;
+              case 'citingArticlesURL':
+                // URL is child node of <val name="citingArticlesURL"> in CDATA section.
+                // We need to pull this out.
+                // Possible that there could be multiple citingArticlesURL values and thus needs an array... Is this true?
 
-              $citingArticlesURL = $val[0];
+                $citingArticlesURL = $val[0];
 
-              break;
+                break;
+            }
           }
-        }
-        // If there is no error return data
-        if (empty($result->error)) {
-          $badgeType = variable_get('islandora_wos_badgetype');
-          if ($badgeType == 'text') {
-            $to_render['content'] = '<div class="wos_badge"><a href="' . $citingArticlesURL . '" target="_blank">Web of Science citations: ' . $timesCited . '</a></div>';
-          }
-          else {
-            $to_render['content'] = '<a href="' . $citingArticlesURL . '" target="_blank"><img src=https://img.shields.io/badge/Web%20of%20Science%20citations-' . $timesCited . '-orange.svg?style=flat"></img></a>';
+          // If there is no error return data
+          if (empty($result->error)) {
+            $badgeType = variable_get('islandora_wos_badgetype');
+            if ($badgeType == 'text') {
+              $to_render['content'] = '<div class="wos_badge"><a href="' . $citingArticlesURL . '" target="_blank">Web of Science citations: ' . $timesCited . '</a></div>';
+            }
+            else {
+              $to_render['content'] = '<a href="' . $citingArticlesURL . '" target="_blank"><img src=https://img.shields.io/badge/Web%20of%20Science%20citations-' . $timesCited . '-orange.svg?style=flat"></img></a>';
+            }
           }
         }
       }
