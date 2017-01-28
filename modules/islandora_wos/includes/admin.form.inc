@@ -9,14 +9,14 @@ function islandora_wos_admin_form($form, $form_settings) {
     '#type' => 'textfield',
     '#title' => t('Web of Science username'),
     '#description' => t('Your username for the Article Match Retrieval service.'),
-    '#default_value' => variable_get('islandora_wos_username', 'none'),
+    '#default_value' => variable_get('islandora_wos_username', ''),
   );
 
   $form['islandora_wos_password'] = array(
     '#type' => 'textfield',
     '#title' => t('Web of Science password'),
     '#description' => t('Your password for the Article Match Retrieval service.'),
-    '#default_value' => variable_get('islandora_wos_password', 'none'),
+    '#default_value' => variable_get('islandora_wos_password', ''),
   );
 
   $form['islandora_wos_badgetype'] = array(
