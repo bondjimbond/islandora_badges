@@ -42,7 +42,7 @@ function islandora_scopus_block_view($delta = '') {
   module_load_include('inc', 'islandora_badges', 'includes/utilities');
   $to_render = array();
   if ($delta == 'islandora_scopus_badge') {
-    $api_key = variable_get('islandora_badges_scopus_api_key', '');
+    $api_key = variable_get('islandora_scopus_api_key', '');
     if ($api_key) {
       $object = menu_get_object('islandora_object', 2);
       if ($object) {
