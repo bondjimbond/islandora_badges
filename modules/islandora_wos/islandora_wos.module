@@ -43,17 +43,15 @@ function islandora_wos_block_view($delta = '') {
   $to_render = array();
 
   if ($delta == 'islandora_wos_badge') {
-    $object = menu_get_object('islandora_object', 2);
-    if ($object) {
-      $doi = islandora_badges_get_doi($object);
-      if ($doi) {
-        // Embed Web of Science.
-
-        // Get the WoS AMR username and password from the admin config.
-        $wos_username = variable_get('islandora_wos_username', 'none');
-        $wos_password = variable_get('islandora_wos_password', 'none');
-
-        if ($wos_username != 'none' && $wos_password != 'none') {
+    // Get the WoS AMR username and password from the admin config.
+    $wos_username = variable_get('islandora_wos_username', '');
+    $wos_password = variable_get('islandora_wos_password', '');
+    if (!empty($wos_username) && !empty($wos_password)) {
+      $object = menu_get_object('islandora_object', 2);
+      if ($object) {
+        $doi = islandora_badges_get_doi($object);
+        if ($doi) {
+          // Embed Web of Science.
           // Set API endpoint URL
           // @TODO: Add to admin form
           $url = "https://ws.isiknowledge.com/cps/xrpc";

@@ -29,7 +29,7 @@ function islandora_scopus_block_info() {
     'islandora_scopus_badge' => array(
       'visibility' => BLOCK_VISIBILITY_LISTED,
       'pages' => 'islandora/object/*',
-      'cache' => DRUPAL_CACHE_PER_PAGE,,
+      'cache' => DRUPAL_CACHE_PER_PAGE,
       'info' => t('Islandora Scopus Badge'),
     ),
   );
@@ -42,19 +42,21 @@ function islandora_scopus_block_view($delta = '') {
   module_load_include('inc', 'islandora_badges', 'includes/utilities');
   $to_render = array();
   if ($delta == 'islandora_scopus_badge') {
-    $object = menu_get_object('islandora_object', 2);
-    if ($object) {
-      $doi = islandora_badges_get_doi($object);
-      if ($doi) {
-        // Embed Scopus.
-        // Assemble the Scopus API request URL
-        $api_key = variable_get('islandora_badges_scopus_api_key', 'b3a71de2bde04544495881ed9d2f9c5b');
-        $scopus_url = "http://api.elsevier.com:80/content/abstract/citation-count?doi=" .
-          urlencode($doi) . "&apiKey=" . $api_key . "&httpAccept=text%2Fhtml";
-        // Hit the API.
-        $response = drupal_http_request($scopus_url);
-        if (!preg_match('/alt=\"unavailable\"/', $response->data)) {
-          $to_render['content'] = $response->data;
+    $api_key = variable_get('islandora_badges_scopus_api_key', '');
+    if ($api_key) {
+      $object = menu_get_object('islandora_object', 2);
+      if ($object) {
+        $doi = islandora_badges_get_doi($object);
+        if ($doi) {
+          // Embed Scopus.
+          // Assemble the Scopus API request URL
+          $scopus_url = "http://api.elsevier.com:80/content/abstract/citation-count?doi=" .
+            urlencode($doi) . "&apiKey=" . $api_key . "&httpAccept=text%2Fhtml";
+          // Hit the API.
+          $response = drupal_http_request($scopus_url);
+          if (!preg_match('/alt=\"unavailable\"/', $response->data)) {
+            $to_render['content'] = $response->data;
+          }
         }
       }
     }
