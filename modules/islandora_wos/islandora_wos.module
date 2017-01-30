@@ -121,13 +121,15 @@ function islandora_wos_block_view($delta = '') {
             }
           }
           // If there is no error return data
-          if (empty($result->error)) {
-            $badgeType = variable_get('islandora_wos_badgetype');
-            if ($badgeType == 'text') {
-              $to_render['content'] = '<div class="wos_badge"><a href="' . $citingArticlesURL . '" target="_blank">Web of Science citations: ' . $timesCited . '</a></div>';
-            }
-            else {
-              $to_render['content'] = '<a href="' . $citingArticlesURL . '" target="_blank"><img src=https://img.shields.io/badge/Web%20of%20Science%20citations-' . $timesCited . '-orange.svg?style=flat"></img></a>';
+          if ($timesCited > 0) {
+            if (empty($result->error)) {
+              $badgeType = variable_get('islandora_wos_badgetype');
+              if ($badgeType == 'text') {
+                $to_render['content'] = '<div class="wos_badge"><a href="' . $citingArticlesURL . '" target="_blank">Web of Science citations: ' . $timesCited . '</a></div>';
+              }
+              else {
+                $to_render['content'] = '<a href="' . $citingArticlesURL . '" target="_blank"><img src=https://img.shields.io/badge/Web%20of%20Science%20citations-' . $timesCited . '-orange.svg?style=flat"></img></a>';
+              }
             }
           }
         }
