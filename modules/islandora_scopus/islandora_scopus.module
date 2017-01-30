@@ -52,7 +52,7 @@ function islandora_scopus_block_view($delta = '') {
           $id = islandora_scopus_get_id('doi', $doi);
         }
         // TODO: Extend to allow PMID, etc.
-        if ($id) {
+        if (isset($id)) {
           $headers = array('Accept' => 'text/html', 'X-ELS-APIKey' => $api_key);
           $scopus_url = "http://api.elsevier.com:80/content/abstract/citation-count?scopus_id={$id}";
           $scopus_url.= "&apiKey={$api_key}&httpAccept=text%2Fhtml";
