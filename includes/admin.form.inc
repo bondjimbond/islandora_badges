@@ -14,18 +14,20 @@ function islandora_badges_admin_form($form, $form_settings) {
   $already_chosen = variable_get('islandora_badges_selected_cmodels', array('ir:citationModel'));
   $selected_rows = drupal_map_assoc($already_chosen);
 
-  $form['content_model_wrapper'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Configure which content models will display badges.'),
-    '#collapsible' => FALSE,
-    '#collapsed' => FALSE,
-  );
   $form['islandora_badges_doi_xpath'] = array(
     '#type' => 'textfield',
     '#title' => t('DOI XPath'),
     '#description' => t('MODS XPath for retrieving the DOI.'),
     '#default_value' => variable_get('islandora_badges_doi_xpath', '/mods:mods/mods:identifier[@type="doi"]'),
   );
+
+  $form['content_model_wrapper'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Configure which content models will display badges.'),
+    '#collapsible' => FALSE,
+    '#collapsed' => FALSE,
+  );
+
   $form['content_model_wrapper']['badges_table'] = array(
     '#type' => 'tableselect',
     '#title' => t('Enable custom pathauto settings for these content models'),
@@ -36,12 +38,12 @@ function islandora_badges_admin_form($form, $form_settings) {
     ),
     '#default_value' => $selected_rows,
   );
+
   $options = array();
   foreach ($all_cmodels as $cmodel) {
     $pid = $cmodel['pid'];
     $label = $cmodel['label'];
     $options[$pid] = array('label' => array('data' => $label));
-
   }
   $form['content_model_wrapper']['badges_table']['#options'] = $options;
 
