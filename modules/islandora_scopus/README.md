@@ -2,14 +2,13 @@
 
 ## Introduction
 
-Islandora Scopus provides a Scopus Citation Count badge for use with Islandora Badges
+Islandora Scopus displays a badge showing how many articles in Scopus have cited your object. For use with Islandora Badges.
 
-Take note: 
-- You do NOT need to be a Scopus subscriber to use or view the Scopus piece. You can [get a Scopus API key for free](http://dev.elsevier.com/sc_apis.html).
+You do NOT need to be a Scopus subscriber to use this module. You can [get a Scopus API key for free](http://dev.elsevier.com/sc_apis.html).
 
-**The Scopus piece** uses the [Scopus Abstract Citation Count API](https://api.elsevier.com/documentation/AbstractCitationCountAPI.wadl). A default API key is included, but this is intended for demo purposes only and is very limited. You should [get your own free API key from Scopus](https://dev.elsevier.com/apikey/create).
+Uses the [Scopus Abstract Citation Count API](https://api.elsevier.com/documentation/AbstractCitationCountAPI.wadl). A default API key is included, but this is intended for demo purposes only and is very limited. You should [get your own free API key from Scopus](https://dev.elsevier.com/apikey/create).
 
-Badges will only display on objects that have a DOI (digital object identifier). The xpath to the DOI field is configurable.
+Badges will only display on objects that have a DOI (digital object identifier). 
 
 ## Requirements
 
@@ -29,14 +28,13 @@ Install as usual, see [this](https://drupal.org/documentation/install/modules-th
 
 Configuration path is admin/islandora/tools/badges/scopus (Administration > Islandora > Islandora Utility Modules > Islandora Badges Configuration > Scopus).
 
-There is one administration fields:
+There is one administration field:
 
 * Scopus API Key
      * Required to acquire citation counts. Do not use the included default in production - it's for demo purposes only. 
      * You can get a [free API key](https://dev.elsevier.com/apikey/create) without subscribing
 
-
-Once enabled the badge is displayed on pages that have a DOI as configured and some metrics.  If it has a DOI, but doesn't display, then the article doesn't currently have any metrics.
+Once enabled, a block is available, which displays a badge on pages that have a DOI as configured and some metrics.  If it has a DOI but no badge appears, then the article does not currently have any metrics.
 
 ## Styling
 
