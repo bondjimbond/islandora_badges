@@ -5,9 +5,11 @@
 Islandora Web of Science provides block which displays Web of Science citation counts on objects for use with Islandora Badges.
 
 Take note: 
-- You **DO** need to be a Web of Science subscriber to get AMR credentials, but citation counts and links can be viewed by the general public.
+* You can only get AMR credentials if your institution is a Web of Science subscriber, BUT
+* Citation counts and links (including list of citing articles) can be viewed by the general public
 
-**The Web of Science piece** uses the WOS [Article Match Retrieval (AMR)](http://ipscience-help.thomsonreuters.com/LAMRService/WebServiceOperationsGroup/requestAPIWoS.html) service. Credentials are required to use the API, but not to view the results. Web of Science subscribers are entitled to credentials - contact your account manager to get set up.
+### Required credentials
+Uses the Web of Science [Article Match Retrieval (AMR)](http://ipscience-help.thomsonreuters.com/LAMRService/WebServiceOperationsGroup/requestAPIWoS.html) service. Credentials are required to use the API, but not to view the results. Web of Science subscribers are entitled to credentials - contact your account manager to get set up.
 
 Badges will only display on objects that have a DOI (digital object identifier). The xpath to the DOI field is configurable.
 
@@ -27,9 +29,9 @@ Install as usual, see [this](https://drupal.org/documentation/install/modules-th
 
 ## Configuration
 
-Configuration path is admin/islandora/tools/badges (Administration > Islandora > Islandora Utility Modules > Islandora Badges Configuration > Web of Science).
+Configuration path is admin/islandora/tools/badges/wos (Administration > Islandora > Islandora Utility Modules > Islandora Badges Configuration > Web of Science).
 
-There are two administration fields:
+Administration fields:
 
 * Web of Science username/password
      * No default is provided, and the service won't work without these. 
