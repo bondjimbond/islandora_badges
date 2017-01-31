@@ -2,12 +2,10 @@
 
 ## Introduction
 
-Islandora Badges displays various badges on objects.
-
-This is built based on the [Islandora Altmetrics module](https://github.com/Islandora/islandora_altmetrics), expanded to also include:
-
-* Scopus
-* Web of Science.
+Islandora Badges displays various metrics badges on objects. Each badge is created by a submodule. Available badges include:
+* Altmetrics: display social media interactions
+* Scopus: Citation counts via the Scopus database
+* Web of Science: Citation counts via Web of Science
 
 Badges will only display on objects that have a DOI (digital object identifier). The xpath to the DOI field is configurable.
 
@@ -28,12 +26,14 @@ Install as usual, see [this](https://drupal.org/documentation/install/modules-th
 
 Configuration path is admin/islandora/tools/badges (Administration > Islandora > Islandora Utility Modules > Islandora Badges Configuration).
 
-There is one administration fields:
+There are two administration fields:
 
 * DOI XPath
      * The XPath to the DOI element e.g. /mods:mods/mods:identifier[@type="doi"] 
      * A default is included and should serve most repositories, but you can change it if yours is located elsewhere.
-
+* Content models
+     * Choose which CModels are able to display badges (Currently only applies to Altmetrics)
+     
 ## Submodules
 
 These modules provide the actual badges:
@@ -54,7 +54,6 @@ Having problems or solved a problem? Check out the Islandora google groups for a
 * Allow other kinds of identifiers (besides DOI) to be used
 * Remove the restriction that limits badges to Citation objects
 * Add more badges
-
 
 ## Maintainers/Sponsors
 
