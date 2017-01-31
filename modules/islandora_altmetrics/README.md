@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Islandora Altmetrics provides a Altmetrics integration badge on citation objects for use with Islandora Badges as provided by [Islandora Scholar](https://github.com/Islandora/islandora_scholar).
+Islandora Altmetrics provides a Altmetrics badge on objects, indicating social media interactions. Applies to any object with a DOI, within selected content models. For use with Islandora Badges.
 
 This modules uses the [Altmetrics API](http://api.altmetric.com/). Before using this module one should familiarize oneself with the licensing.
 
@@ -21,16 +21,14 @@ Install as usual, see [this](https://drupal.org/documentation/install/modules-th
 
 ## Configuration
 
-Configuration path is admin/islandora/tools/altmetrics (Administration > Islandora > Islandora Utility Modules > Islandora Badges Configuration > Altmetrics).
+Configuration path is admin/islandora/tools/badges/altmetrics (Administration > Islandora > Islandora Utility Modules > Islandora Badges Configuration > Altmetrics).
 
 There are two administration options:
 
 * Altmetric Badge
-     * provide one of the [badge types](http://api.altmetric.com/embeds.html#badge-types) defined by Altmetrics. Default is the small rectangular badges. Other options include 
+     * provide one of the [badge types](http://api.altmetric.com/embeds.html#badge-types) defined by Altmetrics. Default is the small rectangular badges. 
 * Altmetrics Popover
-     * defines the location where the [popover displays](http://api.altmetric.com/embeds.html#popovers). Current options are left, right, top or bottom.
-
-![](https://raw.githubusercontent.com/wiki/dmoses/islandora_altmetrics/islandora_altmetrics_config.png)
+     * defines the location where the [popover displays](http://api.altmetric.com/embeds.html#popovers).
 
 The module provides a block, Islandora Altmetrics, that can be placed in a block region.
 
@@ -40,7 +38,7 @@ The block comes with some default configurations.
 
 ![](https://raw.githubusercontent.com/wiki/dmoses/islandora_altmetrics/islandora_altmetrics_block_config.png)
 
-Once enabled the badge is displayed on pages that have a DOI as configured and some metrics.  If it has a DOI, but doesn't display, then the article doesn't currently have any metrics.
+Once enabled the badge is displayed on objects that have a DOI as configured and some metrics.  If it has a DOI but does not display,  the article does not currently have any metrics.
 
 ![](https://raw.githubusercontent.com/wiki/dmoses/islandora_altmetrics/islandora_altmetrics_display.png)
 
@@ -60,6 +58,7 @@ Having problems or solved a problem? Check out the Islandora google groups for a
 Current maintainers:
 
 * [William Panting](https://github.com/willtp87)
+* [Brandon Weigel](https://github.com/bondjimbond)
 
 ## Development
 
@@ -68,6 +67,7 @@ If you would like to contribute to this module, please check out [CONTRIBUTING.m
 ## Notes
 
 Built by [William Panting](https://github.com/willtp87) and tested by [Don Moses](https://github.com/dmoses) during the first Islandora Conference's Hackfest - August 7, 2015.
+Absorbed into Islandora Badges by [Brandon Weigel](https://github.com/bondjimbond) during the 2016 iCamp BC in Vancouver.
 
 ## License
 
