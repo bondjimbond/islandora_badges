@@ -43,6 +43,6 @@ function islandora_badges_get_doi(AbstractObject $object) {
  *   Whether $object has a content model to show badges for.
  */
 function islandora_badges_show_for_cmodel(AbstractObject $object) {
-  $show_cmodels = variable_get('islandora_badges_selected_cmodels', array('ir:citationModel'));
+  $show_cmodels = variable_get('islandora_badges_selected_cmodels', array('ir:citationCModel', 'ir:thesisCModel'));
   return (array_intersect($object->models, $show_cmodels) == TRUE);
 }
