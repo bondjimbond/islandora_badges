@@ -26,6 +26,7 @@ function islandora_badges_menu() {
       'access arguments' => array('administer site configuration'),
       'type' => MENU_DEFAULT_LOCAL_TASK,
       'file' => 'includes/admin.form.inc',
+      'weight' => -9,
     ),
   );
 }

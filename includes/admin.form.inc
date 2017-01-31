@@ -11,7 +11,7 @@ function islandora_badges_admin_form($form, $form_settings) {
   module_load_include('inc', 'islandora', 'includes/utilities');
 
   $all_cmodels = islandora_get_content_models();
-  $already_chosen = variable_get('islandora_badges_selected_cmodels', array('ir:citationModel'));
+  $already_chosen = variable_get('islandora_badges_selected_cmodels', array('ir:citationCModel', 'ir:thesisCModel'));
   $selected_rows = drupal_map_assoc($already_chosen);
 
   $form['islandora_badges_doi_xpath'] = array(
