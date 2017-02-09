@@ -1,0 +1,137 @@
+<?php
+/**
+ * @file
+ * oaDOI Badges
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function islandora_oadoi_menu() {
+  return array(
+    'admin/islandora/tools/badges/oadoi' => array(
+      'title' => 'oaDOI',
+      'description' => 'Configure oaDOI settings.',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('islandora_oadoi_admin_form'),
+      'access arguments' => array('administer site configuration'),
+      'type' => MENU_LOCAL_TASK,
+      'file' => 'includes/admin.form.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_info().
+ * @return array
+ */
+function islandora_oadoi_block_info() {
+  return array(
+  'islandora_oadoi_badge' => array(
+    'visibility' => BLOCK_VISIBILITY_LISTED,
+    'pages' => 'islandora/object/*',
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+    'info' => t('Islandora oaDOI Link'),
+  ));
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function islandora_oadoi_block_view($delta = '') {
+  module_load_include('inc', 'islandora_badges', 'includes/utilities');
+  $to_render = array();
+
+  if ($delta == 'islandora_oadoi_badge') {
+    // Get variables from the admin config.
+  //  $wos_username = variable_get('islandora_wos_username', '');
+  //  $wos_password = variable_get('islandora_wos_password', '');
+  //  if (!empty($wos_username) && !empty($wos_password)) {
+      $object = menu_get_object('islandora_object', 2);
+      if ($object) {
+        $doi = islandora_badges_get_doi($object);
+        if ($doi) {
+          // Set API endpoint URL
+          // @TODO: Add to admin form
+          $url = "https://api.oadoi.org/";
+          $request_url = $url . $doi;
+
+/* old code from Web of Science requesting - see if anything to recycle
+
+          $input_xml = '<?xml version="1.0" encoding="UTF-8" ?>
+      <request xmlns="http://www.isinet.com/xrpc42" src="app.id=API Demo">
+        <fn name="LinksAMR.retrieve">
+          <list>
+            <!-- WHO IS REQUESTING -->
+            <map>   
+              <val name="username">' . $wos_username . '</val>       
+              <val name="password">' . $wos_password . '</val>            
+            </map>
+            <!-- WHAT IS REQUESTED -->
+            <map>
+              <list name="WOS">
+                <val>timesCited</val>
+                <val>citingArticlesURL</val>
+              </list>
+            </map>
+            <!-- LOOKUP DATA -->
+            <map>  
+              <map name="cite_1">
+                <val name="doi">' . $doi . '</val>
+              </map>
+            </map>
+          </list>
+        </fn>
+      </request>';
+*/
+          // Make the request and get results!
+
+          $result = drupal_http_request($request_url, array(
+            'headers' => array('Content-Type' => 'text/xml'),
+          //  'data' => $input_xml,
+            'method' => 'GET',
+            'timeout' => 10
+          ));
+
+          // Convert the response to an array and remove the CDATA tags
+
+          $oadoi_result = simplexml_load_string($result->data, 'SimpleXMLElement', LIBXML_NOCDATA);
+
+          // Default - citingArticlesURL - no citing articles = empty array
+        //  $citingArticlesURL = array();
+
+          // Get the values into the variables
+/*
+          foreach ($oadoi_result->fn->map->map->map->val as $val) {
+            switch ((string) $val['name']) { // Get attributes as element indices
+              case 'timesCited':
+                $timesCited = $val[0];
+                break;
+              case 'citingArticlesURL':
+                // URL is child node of <val name="citingArticlesURL"> in CDATA section.
+                // We need to pull this out.
+                // Possible that there could be multiple citingArticlesURL values and thus needs an array... Is this true?
+
+                $citingArticlesURL = $val[0];
+
+                break;
+            }
+          }  */
+     /*     // If there is no error return data
+          if ($timesCited > 0) {
+            if (empty($result->error)) {
+              $badgeType = variable_get('islandora_wos_badgetype');
+              if ($badgeType == 'text') {
+                $to_render['content'] = '<div class="wos_badge"><a href="' . $citingArticlesURL . '" target="_blank">Web of Science citations: ' . $timesCited . '</a></div>';
+              }
+              else {
+                $to_render['content'] = '<a href="' . $citingArticlesURL . '" target="_blank"><img src=https://img.shields.io/badge/Web%20of%20Science%20citations-' . $timesCited . '-orange.svg?style=flat"></img></a>';
+              }
+            }
+          } */
+        }
+      }
+    }
+  }
+  return $to_render;
+}
