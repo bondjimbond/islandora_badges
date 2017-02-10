@@ -2,10 +2,11 @@
 
 ## Introduction
 
-Islandora Badges displays various metrics badges on objects. Each badge is created by a submodule. Available badges include:
+Islandora Badges displays various metrics (and other) badges on objects. Each badge is created by a submodule. Available badges include:
 * Altmetrics: display social media interactions
 * Scopus: Citation counts via the Scopus database
 * Web of Science: Citation counts via Web of Science
+* oaDOI: Provides a link to a fulltext document for objects without a PDF datastream, via the oadoi.org API
 
 Badges will only display on objects that have a DOI (digital object identifier). The xpath to the DOI field is configurable.
 
