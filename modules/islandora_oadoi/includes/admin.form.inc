@@ -3,7 +3,7 @@
  * @file
  * oaDOI badge admin options
  */
-function islandora_oaidoi_admin_form($form, $form_settings) {
+function islandora_oadoi_admin_form($form, $form_settings) {
   $form['islandora_oai_linktext'] = array(
     '#type' => 'textfield',
     '#title' => t('Link text'),
