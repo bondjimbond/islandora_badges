@@ -48,22 +48,24 @@ function islandora_oadoi_block_view($delta = '') {
 
 // To do: Check for PDF datastream; only run if PDF does not exist
 // To do: Check for cmodel
+      if (islandora_badges_show_for_cmodel($object)) {
 
-      $doi = islandora_badges_get_doi($object);
-      if ($doi) {
+
+        $doi = islandora_badges_get_doi($object);
+        if ($doi) {
          // Set API endpoint URL
          // @TODO: Add to admin form
-        $url = "https://api.oadoi.org/";
-        $request_url = $url . $doi;
+          $url = "https://api.oadoi.org/";
+          $request_url = $url . $doi;
 
          // Make the request and get results!
 
-        $result_json = file_get_contents($request_url);
+          $result_json = file_get_contents($request_url);
 
-        $result_array = json_decode($result_json, TRUE);
+          $result_array = json_decode($result_json, TRUE);
 
-        $result_free_url = $result_array['results'][0]['free_fulltext_url'];
-
+          $result_free_url = $result_array['results'][0]['free_fulltext_url'];
+        }
       }
     }
   }
