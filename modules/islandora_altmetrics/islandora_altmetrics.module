@@ -48,18 +48,22 @@ function islandora_altmetrics_block_view($delta) {
         // Use new customizable list of cmodels.
         $doi = islandora_badges_get_doi($object);
         if ($doi) {
-          // Embed Altmetrics.
-          $to_render['content']['altmetrics'] = array(
-            '#type' => 'container',
-            '#attributes' => array(
-              'class' => array('altmetric-embed'),
-              'data-badge-type' => variable_get('islandora_altmetrics_badge', 'Default'),
-              'data-doi' => $doi,
-              'data-badge-popover' => variable_get('islandora_altmetrics_popover', 'right'),
-              'data-hide-no-mentions' => 'true',
-            ),
-          );
-          drupal_add_js('https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js', 'external');
+          // Only generate block if a result exists - check API callback.
+          $file_headers = @get_headers("http://api.altmetric.com/v1/doi/" . $doi . "?callback=my_callback");
+          if($file_headers['0'] != 'HTTP/1.1 404 Not Found') {
+            // Embed Altmetrics.
+            $to_render['content']['altmetrics'] = array(
+              '#type' => 'container',
+              '#attributes' => array(
+                'class' => array('altmetric-embed'),
+                'data-badge-type' => variable_get('islandora_altmetrics_badge', 'Default'),
+                'data-doi' => $doi,
+                'data-badge-popover' => variable_get('islandora_altmetrics_popover', 'right'),
+                'data-hide-no-mentions' => 'true',
+              ),
+            );
+            drupal_add_js('https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js', 'external');
+          }
         }
       }
     }
